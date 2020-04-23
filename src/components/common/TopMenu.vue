@@ -7,16 +7,16 @@
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <router-link to="/board_main" class="nav-link">자유게시판</router-link>
+          <router-link to="/board" class="nav-link">자유게시판</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/board_main" class="nav-link">유머게시판</router-link>
+          <router-link to="/board" class="nav-link">유머게시판</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/board_main" class="nav-link">정치게시판</router-link>
+          <router-link to="/board" class="nav-link">정치게시판</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/board_main" class="nav-link">스포츠게시판</router-link>
+          <router-link to="/board" class="nav-link">스포츠게시판</router-link>
         </li>
       </ul>
       
@@ -28,7 +28,7 @@
           <router-link to="/user/join" class="nav-link">회원가입</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/user/modify" class="nav-link">정보수정</router-link>
+          <router-link to="/user/modifyuser" class="nav-link">정보수정</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/user/logout" class="nav-link">로그아웃</router-link>
