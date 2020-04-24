@@ -3,10 +3,13 @@ import VueRouter from "vue-router";
 
 //Views
 const Home = () => import('@/views/main/Home');
-const BoardMain = () => import('@/views/board/Main');
 const Login = () => import('@/views/user/Login');
 const Join = () => import('@/views/user/Join');
 const ModifyUser = () => import('@/views/user/Modify');
+
+const BoardMain = () => import('@/views/board/BoardMain');
+const BoardView = () => import('@/views/board/BoardView');
+const BoardModify = () => import('@/views/board/BoardModify');
 
 //Pages-Error
 const Page404 = () => import('@/views/pages/Page404');
@@ -24,6 +27,16 @@ const routes = [
     path: '/board',
     name: 'BoardMain',
     component: BoardMain
+  },
+  {
+    path: '/boardview',
+    name: 'BoardView',
+    component: BoardView
+  },
+  {
+    path: '/boardmodify',
+    name: 'BoardModify',
+    component: BoardModify
   },
   {
     path: '/pages',
@@ -75,7 +88,8 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior: () => ({ y: 0 })
 });
 
 export default router;
