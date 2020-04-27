@@ -48,7 +48,7 @@ export default {
       boardDate : '2020-04-24',
       boardSubject : '제목',
       boardContent : '내용',
-      boardImage : '/images/logo.png'
+      boardImage : require('@/assets/logo.png')
     }
   }
 }

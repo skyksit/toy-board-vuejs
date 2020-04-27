@@ -5,11 +5,12 @@ import VueRouter from "vue-router";
 const Home = () => import('@/views/main/Home');
 const Login = () => import('@/views/user/Login');
 const Join = () => import('@/views/user/Join');
-const ModifyUser = () => import('@/views/user/Modify');
+const UserModify = () => import('@/views/user/Modify');
 
 const BoardMain = () => import('@/views/board/BoardMain');
 const BoardView = () => import('@/views/board/BoardView');
 const BoardModify = () => import('@/views/board/BoardModify');
+const BoardWrite = () => import('@/views/board/BoardWrite');
 
 //Pages-Error
 const Page404 = () => import('@/views/pages/Page404');
@@ -37,6 +38,18 @@ const routes = [
     path: '/boardmodify',
     name: 'BoardModify',
     component: BoardModify
+  },
+  {
+    path: '/boarddelete',
+    beforeEnter(to, from, next) {
+      alert('삭제되었습니다');
+      next('/board');
+    }
+  },
+  {
+    path: '/boardwrite',
+    name: 'BoardWrite',
+    component: BoardWrite
   },
   {
     path: '/pages',
@@ -77,9 +90,16 @@ const routes = [
         component: Join
       },
       {
-        path: 'modifyuser',
-        name: 'ModifyUser',
-        component: ModifyUser
+        path: 'modify',
+        name: 'UserModify',
+        component: UserModify
+      },
+      {
+        path: 'logout',
+        beforeEnter(to, from, next) {
+          alert('로그아웃되었습니다');
+          next('/');
+        }
       }
     ]
   }

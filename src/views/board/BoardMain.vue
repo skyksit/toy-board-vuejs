@@ -48,7 +48,7 @@
         </div>
         
         <div class="text-right">
-          <a href="board_write.html" class="btn btn-primary">글쓰기</a>
+          <router-link to="/boardwrite" class="btn btn-primary">글쓰기</router-link>
         </div>
         
       </div>
@@ -66,7 +66,7 @@ export default {
   },
   methods : {
     goRead : function() {
-      this.$router.push('/boardview')
+      this.$router.push('/boardview');
     }
   }
 }
