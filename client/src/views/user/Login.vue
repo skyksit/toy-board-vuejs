@@ -1,32 +1,65 @@
 <template>
-  <div class="container" style="margin-top:100px">
+  <div
+    class="container"
+    style="margin-top:100px"
+  >
     <div class="row">
-      <div class="col-sm-3"></div>
+      <div class="col-sm-3" />
       <div class="col-sm-6">
         <div class="card shadow">
           <div class="card-body">
-            <div class="alert alert-danger" v-if="isLoginFail === true">
+            <div
+              v-if="isLoginFail === true"
+              class="alert alert-danger"
+            >
               <h3>로그인 실패</h3>
               <p>아이디 비밀번호를 확인해주세요</p>
             </div>
-            <form action="index.html" method="post" onsubmit="return check_input()">
+            <form
+              action="index.html"
+              method="post"
+              onsubmit="return check_input()"
+            >
               <div class="form-group">
                 <label for="userId">아이디</label>
-                <input type="text" id="userId" ref="userId" v-model="userId" class="form-control"/>
+                <input
+                  id="userId"
+                  ref="userId"
+                  v-model="userId"
+                  type="text"
+                  class="form-control"
+                >
               </div>
               <div class="form-group">
                 <label for="userPassword">비밀번호</label>
-                <input type="password" id="userPassword" ref="userPassword" v-model="userPassword" class="form-control"/>
+                <input
+                  id="userPassword"
+                  ref="userPassword"
+                  v-model="userPassword"
+                  type="password"
+                  class="form-control"
+                >
               </div>
               <div class="form-group text-right">
-                <button type="button" @click="checkInput" class="btn btn-primary">로그인</button>
-                <router-link to="/user/join" class="btn btn-danger">회원가입</router-link>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="checkInput"
+                >
+                  로그인
+                </button>
+                <router-link
+                  to="/user/join"
+                  class="btn btn-danger"
+                >
+                  회원가입
+                </router-link>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <div class="col-sm-3"></div>
+      <div class="col-sm-3" />
     </div>
   </div>
 </template>
