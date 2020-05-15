@@ -1,0 +1,129 @@
+service: ${self:custom.baseDomain}-${self:custom.subDomain}
+
+custom:
+  baseDomain: toy
+  subDomain: project
+  currentStage: ${opt:stage, self:provider.stage}
+  currentRegion: ${opt:region, self:provider.region}
+  currentVars:
+    bucketName: nsm-${self:custom.currentStage}-serverless-bucket
+    tableName: toyProjectBoard-${self:custom.currentStage}
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 4000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+    seed:
+      dev:
+        sources:
+          - table: ${self:custom.currentVars.tableName}
+            sources: [./data/board.json]
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ap-northeast-2
+  deploymentBucket:
+    name: ${self:custom.currentVars.bucketName}
+    serverSideEncrytion: AES256
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:custom.currentRegion}:*:table/*"
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+functions:
+  ## Users API
+  createUser:
+    handler: src/User.create
+    events:
+      - http:
+          method: POST
+          path: /api/users
+          cors: true
+
+  loginUser:
+    handler: src/User.login
+    events:
+      - http:
+          method: POST
+          path: /api/users/login
+          cors: true
+
+  getUser:
+    handler: src/User.get
+    events:
+      - http:
+          method: GET
+          path: /api/user
+          cors: true
+
+  updateUser:
+    handler: src/User.update
+    events:
+      - http:
+          method: PUT
+          path: /api/user
+          cors: true
+
+  getProfile:
+    handler: src/User.getProfile
+    events:
+      - http:
+          method: GET
+          path: /api/profiles/{userid}
+          cors: true
+
+resources:
+  Resources:
+    BoardDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: partitionKey
+            AttributeType: S
+          -
+            AttributeName: sortKey
+            AttributeType: S
+          -
+            AttributeName: userid
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: partitionKey
+            KeyType: HASH
+          -
+            AttributeName: sortKey
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.currentVars.tableName}
+        GlobalSecondaryIndexes:
+          -
+            IndexName: userIndex
+            KeySchema:
+              -
+                AttributeName: userid
+                KeyType: HASH
+            Projection:
+              ProjectionType: INCLUDE
+              NonKeyAttributes:
+              - password
+
