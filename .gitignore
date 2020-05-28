@@ -28,3 +28,7 @@ jspm_packages
 
 # dynamodb local
 .dynamodb
+
+# coverages
+coverage
+.nyc_output

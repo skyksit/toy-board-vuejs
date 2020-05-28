@@ -1,0 +1,7 @@
+getUser:
+  handler: functions/api/rest/updateUser/function.handler
+  events:
+    - http:
+        method: PUT
+        path: /api/user
+        cors: true

@@ -7,10 +7,14 @@ custom:
   currentRegion: ${opt:region, self:provider.region}
   currentVars:
     bucketName: nsm-${self:custom.currentStage}-serverless-bucket
-    tableName: toyProjectBoard-${self:custom.currentStage}
+    tableName: toyProject-board-${self:custom.currentStage}
+  environment:
+    STAGE: ${self:custom.currentStage}
+    BOARD_TABLE: ${self:custom.currentVars.tableName}
+
   dynamodb:
     stages:
-      - dev
+      - local
     start:
       port: 4000
       inMemory: true
@@ -28,7 +32,7 @@ custom:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev
+  stage: local
   region: ap-northeast-2
   deploymentBucket:
     name: ${self:custom.currentVars.bucketName}
@@ -49,81 +53,13 @@ plugins:
   - serverless-dynamodb-local
 
 functions:
-  ## Users API
-  createUser:
-    handler: src/User.create
-    events:
-      - http:
-          method: POST
-          path: /api/users
-          cors: true
-
-  loginUser:
-    handler: src/User.login
-    events:
-      - http:
-          method: POST
-          path: /api/users/login
-          cors: true
-
-  getUser:
-    handler: src/User.get
-    events:
-      - http:
-          method: GET
-          path: /api/user
-          cors: true
-
-  updateUser:
-    handler: src/User.update
-    events:
-      - http:
-          method: PUT
-          path: /api/user
-          cors: true
-
-  getProfile:
-    handler: src/User.getProfile
-    events:
-      - http:
-          method: GET
-          path: /api/profiles/{userid}
-          cors: true
+  # REST API
+  - ${file(./functions/api/rest/createUser/function.yml)}
+  # - ${file(./functions/api/rest/getUser/function.yml)}
+  # - ${file(./functions/api/rest/loginUser/function.yml)}
+  # - ${file(./functions/api/rest/updateUser/function.yml)}
+  # - ${file(./functions/api/rest/getProfileUser/function.yml)}
 
 resources:
-  Resources:
-    BoardDynamoDBTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: partitionKey
-            AttributeType: S
-          -
-            AttributeName: sortKey
-            AttributeType: S
-          -
-            AttributeName: userid
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: partitionKey
-            KeyType: HASH
-          -
-            AttributeName: sortKey
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.currentVars.tableName}
-        GlobalSecondaryIndexes:
-          -
-            IndexName: userIndex
-            KeySchema:
-              -
-                AttributeName: userid
-                KeyType: HASH
-            Projection:
-              ProjectionType: INCLUDE
-              NonKeyAttributes:
-              - password
-
+  # DynamoDB
+  - ${file(./infra/dynamodb/boardTable.yml)}

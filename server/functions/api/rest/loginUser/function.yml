@@ -1,0 +1,7 @@
+getUser:
+  handler: functions/api/rest/loginUser/function.handler
+  events:
+    - http:
+        method: POST
+        path: /api/users/login
+        cors: true
