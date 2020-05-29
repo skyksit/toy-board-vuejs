@@ -7,17 +7,21 @@ const bcrypt = require('bcryptjs');
 
 const createController = async(event) => {
   const body = JSON.parse(event.body);
-  if (!body.id) return badRequest('Userid is required');
-  if (!body.password) return badRequest('Password is required');
-  const item = {
+  if (!body.user) return badRequest('User is required');
+  const newUser = body.user;
+  if (!newUser.id) return badRequest('Userid is required');
+  if (!newUser.password) return badRequest('Password is required');
+
+  const encryptedPassword = bcrypt.hashSync(newUser.password, 8);
+  let item = {
     pk: 'user',
-    sk: body.id,
-    content: body.name,
-    password: bcrypt.hashSync(body.password, 8),
-    userid: body.id
+    sk: newUser.id,
+    content: newUser.name,
+    password: encryptedPassword,
+    userid: newUser.id
   };
   await userModel.put(item);
-  const token = sign(body);
+  const token = sign(newUser);
   const headers = {
     'Set-Cookie': 'jwt=' + token + '; Path=/; Expires=' + new Date(new Date().getTime() + 1000 * TOKEN_EXP_SECONDS).toUTCString()
   }

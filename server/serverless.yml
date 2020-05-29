@@ -55,8 +55,8 @@ plugins:
 functions:
   # REST API
   - ${file(./functions/api/rest/createUser/function.yml)}
+  - ${file(./functions/api/rest/loginUser/function.yml)}
   # - ${file(./functions/api/rest/getUser/function.yml)}
-  # - ${file(./functions/api/rest/loginUser/function.yml)}
   # - ${file(./functions/api/rest/updateUser/function.yml)}
   # - ${file(./functions/api/rest/getProfileUser/function.yml)}
 
