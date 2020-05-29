@@ -46,4 +46,14 @@ describe("REST/login", () => {
     );
     result.should.property('body','{"message":"Wrong Password"}');
   });
+  // eslint-disable-next-line no-undef
+  it("User Not Found", async () => {
+    let result = await loginController(
+      {
+        ...apiGatewaySample,
+        queryStringParameters: { id:"no.have.id", password:"nopassword" }
+      }
+    );
+    result.should.property('body','{"message":"User not Found"}');
+  });
 });
