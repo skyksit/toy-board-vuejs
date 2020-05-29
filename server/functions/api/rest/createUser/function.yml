@@ -1,0 +1,7 @@
+create:
+  handler: functions/api/rest/createUser/function.handler
+  events:
+    - http:
+        method: POST
+        path: /api/users
+        cors: true

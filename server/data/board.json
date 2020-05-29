@@ -1,34 +1,34 @@
 [
   {
-    "partitionKey": "board",
-    "sortKey": "board-1",
+    "pk": "board",
+    "sk": "board-1",
     "content": "자유게시판"
   },
   {
-    "partitionKey": "board",
-    "sortKey": "board-2",
+    "pk": "board",
+    "sk": "board-2",
     "content": "유머게시판"
   },
   {
-    "partitionKey": "board",
-    "sortKey": "board-3",
+    "pk": "board",
+    "sk": "board-3",
     "content": "정치게시판"
   },
   {
-    "partitionKey": "board",
-    "sortKey": "board-4",
+    "pk": "board",
+    "sk": "board-4",
     "content": "스포츠게시판"
   },
   {
-    "partitionKey": "user",
-    "sortKey": "abcdef",
+    "pk": "user",
+    "sk": "abcdef",
     "content": "홍길동",
     "userid": "abcdef",
     "password": "password"
   },
   {
-    "partitionKey": "user",
-    "sortKey": "skykbc",
+    "pk": "user",
+    "sk": "skykbc",
     "content": "김병철",
     "userid": "skykbc",
     "password": "passw0rd"
