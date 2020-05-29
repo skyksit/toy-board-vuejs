@@ -6,6 +6,8 @@
     "serve": "vue-cli-service serve --open --port 3000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "db:local": "cd server && sls dynamodb start --migrate && cd ..",
+    "allstart": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run serve\" ",
     "tdd": "node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/**/*.spec.js"
   },
   "dependencies": {
@@ -27,6 +29,7 @@
     "aws-sdk": "^2.683.0",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
+    "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-plugin-sonarjs": "^0.5.0",
