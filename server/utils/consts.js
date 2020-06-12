@@ -1,5 +1,9 @@
 'use strict'
-const TOKEN_EXP_SECONDS = 60 * 60 * 24 * 365;
+
+const configs = {
+  TOKEN_EXP_SECONDS: process.env.TOKEN_EXP_SECONDS || (60 * 60 * 24 * 365),
+  AUTH_SECRET: process.env.AUTH_SECRET
+}
 
 /* istanbul ignore next */
 const getEndpoint = () => {
@@ -36,5 +40,5 @@ module.exports = {
   getEndpoint,
   getRegion,
   getTableName,
-  TOKEN_EXP_SECONDS
+  configs
 }
