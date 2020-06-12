@@ -2,6 +2,7 @@
 dist
 
 # local env files
+*.env.json
 .env.local
 .env.*.local
 

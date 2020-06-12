@@ -5,6 +5,7 @@ frameworkVersion: '>=1.0.0 <2.0.0'
 custom:
   baseDomain: toy
   subDomain: project
+  ssm: ${ssm:/aws/reference/secretsmanager/${opt:stage, self:provider.stage}/toyboard/envs~true}
   currentVars:
     tableName: toyProject-board-${self:provider.stage}
   dynamodb:
@@ -69,10 +70,6 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
-  environment:
-    STAGE: ${self:provider.stage}
-    BOARD_TABLE: ${self:custom.currentVars.tableName}
-    AUTH_SECRET: 
   tracing:
     apiGateway: true
     lambda: true

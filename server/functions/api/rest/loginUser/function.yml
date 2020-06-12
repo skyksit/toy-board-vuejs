@@ -7,3 +7,4 @@ loginUser:
         method: POST
         path: /api/users/login
         cors: true
+  environment: ${self:custom.ssm, file(./config/${self:provider.stage}.env.json)}
