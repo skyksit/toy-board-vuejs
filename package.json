@@ -5,12 +5,12 @@
   "scripts": {
     "postinstall": "cd client && npm install && cd .. && cd server && npm install && cd ..",
     "package:server": "serverless package --stage local",
-    "deploy1:server": "cd server && serverless deploy --stage local",
+    "deploy1:server": "cd server && serverless offline",
     "deploy2:server": "cd server && serverless deploy --stage dev",
     "deploy:client": "cd client && npm run build && cd .. && serverless client deploy --stage local",
     "db:local": "cd server && serverless dynamodb start --migrate && cd ..",
     "client": "cd client && npm run serve",
-    "local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run client\" ",
+    "local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run client\" \"npm run deploy1:server\" ",
     "test": "cross-env AUTH_SECRET=verysecrettoken node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/functions/**/*.spec.js",
     "cover": "nyc --reporter=lcov --reporter=text npm run test"
   },
@@ -19,7 +19,7 @@
     "chai": "^4.2.0",
     "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
-    "mocha": "^7.2.0",
+    "mocha": "^8.0.1",
     "nyc": "^15.1.0"
   }
 }

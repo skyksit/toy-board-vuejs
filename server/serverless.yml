@@ -54,7 +54,7 @@ provider:
   region: ${opt:region, 'ap-northeast-2'}
   memorySize: 128
   deploymentBucket:
-    name: com.nsmall.serverless.${self:provider.region}.deploys
+    name: com.nsmall.easyshopping.${self:provider.region}.deploys
     maxPreviousDeploymentArtifacts: 10
     blockPublicAccess: true
     serverSideEncrytion: AES256
