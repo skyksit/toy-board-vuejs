@@ -1,0 +1,4 @@
+authUser:
+  handler: functions/api/rest/authUser/function.handler
+  memorySize: 128
+  timeout: 10

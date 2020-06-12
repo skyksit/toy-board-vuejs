@@ -1,17 +1,12 @@
 service: ${self:custom.baseDomain}-${self:custom.subDomain}
 
+frameworkVersion: '>=1.0.0 <2.0.0'
+
 custom:
   baseDomain: toy
   subDomain: project
-  currentStage: ${opt:stage, self:provider.stage}
-  currentRegion: ${opt:region, self:provider.region}
   currentVars:
-    bucketName: nsm-${self:custom.currentStage}-serverless-bucket
-    tableName: toyProject-board-${self:custom.currentStage}
-  environment:
-    STAGE: ${self:custom.currentStage}
-    BOARD_TABLE: ${self:custom.currentVars.tableName}
-
+    tableName: toyProject-board-${self:provider.stage}
   dynamodb:
     stages:
       - local
@@ -29,14 +24,41 @@ custom:
           - table: ${self:custom.currentVars.tableName}
             sources: [./data/board.json]
 
+package:
+  exclude:
+    - "*/**"
+  include:
+    - "functions/**"
+    - "infra/**"
+    - "models/**"
+    - "services/**"
+    - "utils/**"
+    - "node_modules/bcryptjs/**"
+    - "node_modules/buffer-equal-constant-time/**"
+    - "node_modules/dynamodb-toolbox/**"
+    - "node_modules/ecdsa-sig-formatter/**"
+    - "node_modules/jsonwebtoken/**"
+    - "node_modules/jwa/**"
+    - "node_modules/jws/**"
+    - "node_modules/lodash*/**"
+    - "node_modules/moment*/**"
+    - "node_modules/ms/**"
+    - "node_modules/safe-buffer/**"
+    - "node_modules/semver/**"
+  individually: true
+
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: local
-  region: ap-northeast-2
+  stage: ${opt:stage, 'local'}
+  region: ${opt:region, 'ap-northeast-2'}
+  memorySize: 128
   deploymentBucket:
-    name: ${self:custom.currentVars.bucketName}
+    name: com.nsmall.serverless.${self:provider.region}.deploys
+    maxPreviousDeploymentArtifacts: 10
+    blockPublicAccess: true
     serverSideEncrytion: AES256
+  endpointType: regional
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -46,7 +68,14 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:custom.currentRegion}:*:table/*"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+  environment:
+    STAGE: ${self:provider.stage}
+    BOARD_TABLE: ${self:custom.currentVars.tableName}
+    AUTH_SECRET: 
+  tracing:
+    apiGateway: true
+    lambda: true
 
 plugins:
   - serverless-offline
@@ -56,6 +85,8 @@ functions:
   # REST API
   - ${file(./functions/api/rest/createUser/function.yml)}
   - ${file(./functions/api/rest/loginUser/function.yml)}
+  - ${file(./functions/api/rest/logoutUser/function.yml)}
+  - ${file(./functions/api/rest/authUser/function.yml)}
   # - ${file(./functions/api/rest/getUser/function.yml)}
   # - ${file(./functions/api/rest/updateUser/function.yml)}
   # - ${file(./functions/api/rest/getProfileUser/function.yml)}

@@ -1,7 +1,7 @@
 'use strict'
 const userModel = require('../../../../models/userModel');
 const { sign } = require('../../../../utils/util');
-const { TOKEN_EXP_SECONDS } = require('../../../../utils/consts');
+const { configs } = require('../../../../utils/consts');
 const { ok, badRequest } = require('../../../../utils/response');
 const bcrypt = require('bcryptjs');
 
@@ -20,10 +20,11 @@ const createController = async(event) => {
     password: encryptedPassword,
     userid: newUser.id
   };
+  console.warn('item=', JSON.stringify(item));
   await userModel.put(item);
   const token = sign(newUser);
   const headers = {
-    'Set-Cookie': 'jwt=' + token + '; Path=/; Expires=' + new Date(new Date().getTime() + 1000 * TOKEN_EXP_SECONDS).toUTCString()
+    'Set-Cookie': 'jwt=' + token + '; Path=/; Expires=' + new Date(new Date().getTime() + 1000 * configs.TOKEN_EXP_SECONDS).toUTCString()
   }
   return ok({}, headers);
 }

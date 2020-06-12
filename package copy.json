@@ -1,0 +1,62 @@
+{
+  "name": "toy-board-vuejs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --open --port 3000",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "db:local": "cd server && sls dynamodb start --migrate && cd ..",
+    "local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run serve\" ",
+    "tdd": "node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/**/*.spec.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.4.1",
+    "bootstrap-vue": "^2.11.0",
+    "core-js": "^3.6.5",
+    "dynamodb-toolbox": "^0.2.0-alpha",
+    "jsonwebtoken": "^8.5.1",
+    "moment-timezone": "^0.5.31",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
+    "aws-sdk": "^2.683.0",
+    "babel-eslint": "^10.1.0",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.1.5",
+    "should": "^13.2.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:sonarjs/recommended",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
