@@ -6,6 +6,7 @@ const { ok, badRequest } = require('../../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const createController = async(event) => {
+  console.log(`event=${JSON.stringify(event)}`);
   const body = JSON.parse(event.body);
   if (!body.user) return badRequest('User is required');
   const newUser = body.user;

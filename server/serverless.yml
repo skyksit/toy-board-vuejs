@@ -5,7 +5,7 @@ frameworkVersion: '>=1.0.0 <2.0.0'
 custom:
   baseDomain: toy
   subDomain: project
-  ssm: ${ssm:/aws/reference/secretsmanager/${opt:stage, self:provider.stage}/toyboard/envs~true}
+  ssm: ${ssm:/toyboard/${opt:stage, self:provider.stage}/envs~true}
   currentVars:
     tableName: toyProject-board-${self:provider.stage}
   dynamodb:
@@ -51,14 +51,15 @@ package:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'ap-northeast-2'}
   memorySize: 128
   deploymentBucket:
-    name: com.nsmall.easyshopping.${self:provider.region}.deploys
+    name: nsm-${self:provider.stage}-serverless-bucket
     maxPreviousDeploymentArtifacts: 10
     blockPublicAccess: true
     serverSideEncrytion: AES256
+  logRetentionInDays: 14
   endpointType: regional
   iamRoleStatements:
     - Effect: Allow
