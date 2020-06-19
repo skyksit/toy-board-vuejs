@@ -1,8 +1,8 @@
 'use strict'
-const userModel = require('../../../../models/userModel');
-const { sign } = require('../../../../utils/util');
-const { configs } = require('../../../../utils/consts');
-const { ok, badRequest, unauthorized } = require('../../../../utils/response');
+const userModel = require('../../../models/userModel');
+const { sign } = require('../../../utils/util');
+const { configs } = require('../../../utils/consts');
+const { ok, badRequest, unauthorized } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const loginController = async(event) => {

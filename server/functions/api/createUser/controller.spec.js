@@ -1,6 +1,6 @@
 'use strict'
 const createController = require('./controller');
-const { apiGatewaySample } = require('../../../../utils/apiGatewaySample');
+const { apiGatewaySample } = require('../../../utils/apiGatewaySample');
 const chai = require('chai');
 chai.should();
 

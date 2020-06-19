@@ -1,12 +1,11 @@
 'use strict'
-const userModel = require('../../../../models/userModel');
-const { sign } = require('../../../../utils/util');
-const { configs } = require('../../../../utils/consts');
-const { ok, badRequest } = require('../../../../utils/response');
+const userModel = require('../../../models/userModel');
+const { sign } = require('../../../utils/util');
+const { configs } = require('../../../utils/consts');
+const { ok, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const createController = async(event) => {
-  console.log(`event=${JSON.stringify(event)}`);
   const body = JSON.parse(event.body);
   if (!body.user) return badRequest('User is required');
   const newUser = body.user;
@@ -21,7 +20,6 @@ const createController = async(event) => {
     password: encryptedPassword,
     userid: newUser.id
   };
-  console.warn('item=', JSON.stringify(item));
   await userModel.put(item);
   const token = sign(newUser);
   const headers = {

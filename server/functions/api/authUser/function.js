@@ -1,5 +1,5 @@
 'use strict'
-const { badRequest } = require('../../../../utils/response');
+const { badRequest } = require('../../../utils/response');
 const authController = require('./controller');
 
 exports.handler = function(event, context, callback) {

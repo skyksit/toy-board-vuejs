@@ -1,0 +1,10 @@
+create:
+  handler: functions/api/createUser/function.handler
+  memorySize: 128
+  timeout: 10
+  events:
+    - http:
+        method: POST
+        path: /api/users
+        cors: true
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json):configData}
