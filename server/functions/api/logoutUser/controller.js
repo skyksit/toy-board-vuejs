@@ -1,6 +1,6 @@
 'use strict'
-const { configs } = require('../../../../utils/consts');
-const { ok } = require('../../../../utils/response');
+const { configs } = require('../../../utils/consts');
+const { ok } = require('../../../utils/response');
 
 const logoutController = async(event) => {
   const headers = {

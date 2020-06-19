@@ -8,6 +8,11 @@ custom:
   ssm: ${ssm:/toyboard/${opt:stage, self:provider.stage}/envs~true}
   currentVars:
     tableName: toyProject-board-${self:provider.stage}
+  serverless-offline-ssm:
+    stages:
+      - local
+    ssm:
+      '/toyboard/local/envs': '{"configData":{"AUTH_SECRET": "verysecrettoken","TOKEN_EXP_SECONDS": "1d","BOARD_TABLE": "toyProject-board-local"}}'
   dynamodb:
     stages:
       - local
@@ -76,18 +81,20 @@ provider:
     lambda: true
 
 plugins:
-  - serverless-offline
+  - serverless-offline-ssm
   - serverless-dynamodb-local
+  - serverless-offline
 
 functions:
   # REST API
-  - ${file(./functions/api/rest/createUser/function.yml)}
-  - ${file(./functions/api/rest/loginUser/function.yml)}
-  - ${file(./functions/api/rest/logoutUser/function.yml)}
-  - ${file(./functions/api/rest/authUser/function.yml)}
-  # - ${file(./functions/api/rest/getUser/function.yml)}
-  # - ${file(./functions/api/rest/updateUser/function.yml)}
-  # - ${file(./functions/api/rest/getProfileUser/function.yml)}
+  - ${file(./functions/api/createUser/function.yml)}
+  - ${file(./functions/api/loginUser/function.yml)}
+  - ${file(./functions/api/logoutUser/function.yml)}
+  - ${file(./functions/api/authUser/function.yml)}
+  - ${file(./functions/api/checkUserId/function.yml)}
+  # - ${file(./functions/api/getUser/function.yml)}
+  # - ${file(./functions/api/updateUser/function.yml)}
+  # - ${file(./functions/api/getProfileUser/function.yml)}
 
 resources:
   # DynamoDB

@@ -1,5 +1,5 @@
 'use strict'
-const { badRequest } = require('../../../../utils/response');
+const { badRequest } = require('../../../utils/response');
 const loginController = require('./controller');
 
 exports.handler = async function(event) {

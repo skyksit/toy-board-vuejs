@@ -1,7 +1,7 @@
 'use strict'
 const jwt = require('jsonwebtoken');
-const { configs } = require('../../../../utils/consts');
-const { generatePolicy } = require('../../../../utils/util');
+const { configs } = require('../../../utils/consts');
+const { generatePolicy } = require('../../../utils/util');
 
 const authController = (event, context, callback) => {
   console.log(`event = ${JSON.stringify(event)}`);

@@ -1,0 +1,10 @@
+getUser:
+  handler: functions/api/getUser/function.handler
+  memorySize: 128
+  timeout: 10
+  events:
+    - http:
+        method: GET
+        path: /api/users
+        cors: true
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json):configData}

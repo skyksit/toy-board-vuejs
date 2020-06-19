@@ -1,5 +1,5 @@
 getUser:
-  handler: functions/api/rest/getProfileUser/function.handler
+  handler: functions/api/getProfileUser/function.handler
   memorySize: 128
   timeout: 10
   events:
