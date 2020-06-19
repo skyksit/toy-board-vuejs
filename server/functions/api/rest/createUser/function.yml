@@ -7,3 +7,4 @@ create:
         method: POST
         path: /api/users
         cors: true
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json)}

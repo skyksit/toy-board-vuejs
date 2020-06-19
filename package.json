@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "postinstall": "cd client && npm install && cd .. && cd server && npm install && cd ..",
-    "package:server": "serverless package --stage local",
+    "build:server": "cd server && serverless package --stage dev",
     "deploy1:server": "cd server && serverless offline",
-    "deploy2:server": "cd server && serverless deploy --stage dev",
-    "deploy:client": "cd client && npm run build && cd .. && serverless client deploy --stage local",
-    "db:local": "cd server && serverless dynamodb start --migrate && cd ..",
+    "deploy2:server": "cd server && rm -rf .serverless && serverless deploy --stage dev",
+    "deploy1:client": "npm run client",
+    "db:local": "cd server && serverless dynamodb start --migrate --stage local && cd ..",
     "client": "cd client && npm run serve",
-    "local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run client\" \"npm run deploy1:server\" ",
+    "start:local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run client\" \"npm run deploy1:server\" ",
     "test": "cross-env AUTH_SECRET=verysecrettoken node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/functions/**/*.spec.js",
     "cover": "nyc --reporter=lcov --reporter=text npm run test"
   },

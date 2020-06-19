@@ -2,8 +2,10 @@
 dist
 
 # local env files
+*.env.json
 .env.local
 .env.*.local
+.envrc
 
 # Log files
 npm-debug.log*

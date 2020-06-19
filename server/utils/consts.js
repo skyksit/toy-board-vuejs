@@ -1,7 +1,7 @@
 'use strict'
 
 const configs = {
-  TOKEN_EXP_SECONDS: process.env.TOKEN_EXP_SECONDS || (60 * 60 * 24 * 365),
+  TOKEN_EXP_SECONDS: process.env.TOKEN_EXP_SECONDS || "1d",
   AUTH_SECRET: process.env.AUTH_SECRET
 }
 
