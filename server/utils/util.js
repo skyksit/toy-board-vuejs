@@ -7,7 +7,7 @@ const sign = (user) => {
     id: user.id
   }
   const options = {
-    expiresIn: configs.TOKEN_EXP_SECONDS
+    expiresIn: configs.TOKEN_EXP_HOURS
   }
   const token = jwt.sign(payload, configs.AUTH_SECRET, options);
   return token;

@@ -12,7 +12,7 @@ custom:
     stages:
       - local
     ssm:
-      '/toyboard/local/envs': '{"configData":{"AUTH_SECRET": "verysecrettoken","TOKEN_EXP_SECONDS": "1d","BOARD_TABLE": "toyProject-board-local"}}'
+      '/toyboard/local/envs': '{"configData":{"AUTH_SECRET": "verysecrettoken","TOKEN_EXP_HOURS": "1h","BOARD_TABLE": "toyProject-board-local"}}'
   dynamodb:
     stages:
       - local

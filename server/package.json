@@ -5,7 +5,7 @@
   "scripts": {},
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "dynamodb-toolbox": "^0.2.0-alpha",
+    "dynamodb-toolbox": "^0.2.0-beta",
     "jsonwebtoken": "^8.5.1",
     "moment-timezone": "^0.5.31"
   },

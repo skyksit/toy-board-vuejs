@@ -11,6 +11,14 @@ module.exports.ok = function (body, headers = null) {
   }
 }
 
+module.exports.create = function (body, headers = null) {
+  return {
+    statusCode: 201,
+    body: JSON.stringify(body),
+    headers: headers || CORS
+  }
+}
+
 module.exports.notFound = function (message) {
   return {
     statusCode: 404,

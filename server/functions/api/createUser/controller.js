@@ -2,7 +2,7 @@
 const userModel = require('../../../models/userModel');
 const { sign } = require('../../../utils/util');
 const { configs } = require('../../../utils/consts');
-const { ok, badRequest } = require('../../../utils/response');
+const { ok, create, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const createController = async(event) => {
@@ -20,12 +20,19 @@ const createController = async(event) => {
     password: encryptedPassword,
     userid: newUser.id
   };
-  await userModel.put(item);
-  const token = sign(newUser);
-  const headers = {
-    'Set-Cookie': 'jwt=' + token + '; Path=/; Expires=' + new Date(new Date().getTime() + 1000 * configs.TOKEN_EXP_SECONDS).toUTCString()
+  let options = {
+    conditions: { attr: 'sk', exists: false }
+  };
+  
+  let result = await userModel.put(item, options);
+  console.log(`result.statusCode=${result.statusCode}`);
+  if(result.statusCode == null) {
+    const token = sign(newUser);
+    let body = { message: "User registered successfully!", accessToken: token };
+    return create(body);
+  } else {
+    return badRequest('Password is required');
   }
-  return ok({}, headers);
 }
 
 module.exports = createController

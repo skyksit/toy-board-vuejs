@@ -73,8 +73,8 @@ const routes = [
   },
   {
     path: '/user',
-    redirect: '/user/login',
     name: 'User',
+    redirect: '/user/login',
     component: {
       render (c) { return c('router-view') }
     },

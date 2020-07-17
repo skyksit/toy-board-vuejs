@@ -9,7 +9,7 @@
         <div class="card shadow">
           <div class="card-body">
             <div
-              v-if="isLoginFail === true"
+              v-if="user.isLoginFail === true"
               class="alert alert-danger"
             >
               <h3>로그인 실패</h3>
@@ -21,30 +21,36 @@
               onsubmit="return check_input()"
             >
               <div class="form-group">
-                <label for="userId">아이디</label>
+                <label for="userid">아이디</label>
                 <input
-                  id="userId"
-                  ref="userId"
-                  v-model="userId"
+                  id="userid"
+                  ref="userid"
+                  v-model="user.userid"
                   type="text"
                   class="form-control"
                 >
               </div>
+              <div>
+                <b-alert show :variant="message.id.color" v-model="message.id.show" v-html="message.id.html" dismissible></b-alert>
+              </div>
               <div class="form-group">
-                <label for="userPassword">비밀번호</label>
+                <label for="password">비밀번호</label>
                 <input
-                  id="userPassword"
-                  ref="userPassword"
-                  v-model="userPassword"
+                  id="password"
+                  ref="password"
+                  v-model="user.password"
                   type="password"
                   class="form-control"
                 >
+              </div>
+              <div>
+                <b-alert show :variant="message.password.color" v-model="message.password.show" v-html="message.password.html" dismissible></b-alert>
               </div>
               <div class="form-group text-right">
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="checkInput"
+                  @click="onSubmit"
                 >
                   로그인
                 </button>
@@ -64,31 +70,55 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+import User from '../../models/user';
+
 export default {
   data : function() {
     return {
-      isLoginFail : false,
-      userId : '',
-      userPassword : ''
+      user: new User('','',''),
+      loading: false,
+      msg: '',
+      message: {
+        password : {
+          color : 'danger',
+          show : false,
+          html : ''
+        },
+        id : {
+          color : 'danger',
+          show : false,
+          html : ''
+        }
+      }
     }
   },
   methods : {
-    checkInput : function() {
-      if(this.userId.length < 4) {
-        alert("아이디는 4글자 이상입니다");
-        this.userId = '';
-        this.$refs.userId.focus();
+    ...mapActions(['login']),
+    onSubmit : function() {
+      if(this.user.userid.length < 4) {
+        this.message.id.html = '아이디는 4글자 이상입니다';
+        this.message.id.show = true;
+        this.$refs.userid.focus();
         return
+      } else {
+        this.message.id.show = false;
       }
-      if(this.userPassword.length < 4) {
-        alert("비밀번호는 6글자 이상입니다");
-        this.userPassword = '';
-        this.$refs.userPassword.focus();
+      if(this.user.password.length < 4) {
+        this.message.password.html = '비밀번호는 6글자 이상입니다';
+        this.message.password.show = true;
+        this.$refs.password.focus();
         return
+      } else {
+        this.message.password.show = false;
       }
 
-      alert("로그인 되었습니다");
-      this.$router.push('/');
+      try {
+        let loginResult = this.login( this.user );
+        console.log(loginResult); //로그인이 성공이면 true, 실패면 false
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 }

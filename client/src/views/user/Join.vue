@@ -9,64 +9,62 @@
         <div class="card shadow">
           <div class="card-body">
             <div class="form-group">
-              <label for="userName">이름</label>
+              <label for="username">이름</label>
               <input
-                id="userName"
-                ref="userName"
-                v-model="userName"
+                id="username"
+                ref="username"
+                v-model="user.username"
                 type="text"
                 class="form-control"
                 placeholder="홍길동"
               />
             </div>
             <div>
-              <b-alert show variant="danger" v-model="showNameMsg" v-html="nameMsg" dismissible></b-alert>
+              <b-alert show :variant="message.name.color" v-model="message.name.show" v-html="message.name.html" dismissible></b-alert>
             </div>
             <div class="form-group">
-              <label for="userId">아이디</label>
+              <label for="userid">아이디</label>
               <div class="input-group">
                 <input
-                  id="userId"
-                  ref="userId"
-                  v-model="userId"
+                  id="userid"
+                  ref="userid"
+                  v-model="user.userid"
                   type="text"
                   class="form-control"
                   placeholder="abcdef"
-                  @keydown="resetCheckUserId"
+                  @keydown="resetCheckuserid"
                 />
                 <div class="input-group-append">
                   <button
                     type="button"
                     class="btn btn-primary"
-                    @click="checkUserIdExist"
+                    @click="checkuseridExist"
                   >
                     중복확인
                   </button>
                 </div>
               </div>
-              <div
-                class="card-body"
-                v-html="idMsg"
-              >
+              <div>
+                <b-alert show :variant="message.id.color" v-model="message.id.show" v-html="message.id.html" dismissible></b-alert>
               </div>
             </div>
             <div class="form-group">
-              <label for="userPassword">비밀번호</label>
+              <label for="password">비밀번호</label>
               <input
-                id="userPassword"
-                ref="userPassword"
-                v-model="userPassword"
+                id="password"
+                ref="password"
+                v-model="user.password"
                 type="password"
                 class="form-control"
                 placeholder="password"
               />
             </div>
             <div class="form-group">
-              <label for="userPassword2">비밀번호 확인</label>
+              <label for="password2">비밀번호 확인</label>
               <input
-                id="userPassword2"
-                ref="userPassword2"
-                v-model="userPassword2"
+                id="password2"
+                ref="password2"
+                v-model="password2"
                 type="password"
                 class="form-control"
               />
@@ -76,7 +74,7 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="checkInput"
+                  @click="addUser"
                 >
                   회원가입
                 </button>
@@ -90,77 +88,104 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+import User from '../../models/user';
+
 export default {
   data : function() {
     return {
-      user: {
-        userName : '',
-        userId : '',
-        userPassword : '',
-        userPassword2 : '',
-        checkUserId : false
-      },
+      user: new User('','password',''),
+      checkid: false,
+      successful: false,
+      password2: 'password',
+      msg: '',
       message: {
-        nameMsg : '',
-        idMsg : '',
-        showNameMsg : false
+        name : {
+          color : 'danger',
+          show : false,
+          html : ''
+        },
+        id : {
+          color : 'danger',
+          show : false,
+          html : ''
+        }
       }
     }
   },
   methods : {
-    checkInput : function() {
-      if(this.userName.length < 2) {
-        this.nameMsg = '이름은 2글자 이상입니다';
-        this.showNameMsg = true;
-        this.$refs.userName.focus();
+    ...mapActions(['register','caniUseId']),
+    addUser : function() {
+      if(this.user.username.length < 2) {
+        this.message.name.html = '이름은 2글자 이상입니다';
+        this.message.name.show = true;
+        this.$refs.username.focus();
         return
       } else {
-        this.showNameMsg = false;
+        this.message.name.show = false;
       }
-      if(this.userId.length < 4) {
-        this.idMsg = '아이디는 4글자 이상입니다';
-        this.$refs.userId.focus();
+      if(this.user.userid.length < 4) {
+        this.message.id.html = '아이디는 4글자 이상입니다';
+        this.message.id.show = true;
+        this.message.id.color = 'danger';
+        this.$refs.userid.focus();
         return
+      } else {
+        this.message.idMsg = false;
       }
-      if(this.userPassword.length < 6) {
+      if(this.user.password.length < 6) {
         alert("비밀번호는 6글자 이상입니다");
-        this.$refs.userPassword.focus();
+        this.$refs.password.focus();
         return
       }
-      if(this.userPassword != this.userPassword2) {
+      if(this.user.password != this.password2) {
         alert("비밀번호 확인 입력값이 비밀번호 입력값과 다릅니다");
-        this.$refs.userPassword2.focus();
+        this.$refs.password2.focus();
         return
       }
-      if(this.checkUserId === false) {
-        this.idMsg = '아이디 중복 확인을 해주세요';
-        this.$refs.userId.focus();
+      if(this.user.checkid === false) {
+        this.message.id.html = '아이디 중복 확인을 해주세요';
+        this.message.id.show = true;
+        this.$refs.userid.focus();
         return
       }
-      alert("가입이 완료되었습니다");
-      // this.$router.push('/user/login');
+
+      try {
+        let registerResult = this.register( this.user );
+        console.log(`JOIN.vue = ${JSON.stringify(registerResult)}`);
+      } catch (err) {
+        console.error(err);
+      }
     },
-    checkUserIdExist : function() {
-      if(this.userId.length < 4) {
-        this.idMsg = "아이디는 4글자 이상입니다";
-        this.$refs.userId.focus();
+    checkuseridExist : async function() {
+      if(this.user.userid.length < 4) {
+        this.message.id.html = "아이디는 4글자 이상입니다";
+        this.message.id.show = true;
+        this.message.id.color = 'danger';
+        this.$refs.userid.focus();
         return
       }
-      const baseURI = 'http://localhost:5000/local';
-      this.$http
-        .get(`${baseURI}/api/id?user_id=${this.userId}`)
-        .then((result) => {
-          if (result.data.use_id === true) {
-            this.checkUserId = true;
-            this.idMsg = "사용 가능한 아이디 입니다";
-          } else {
-            this.checkUserId = false;
-            this.idMsg = "사용할 수 없는 아이디 입니다.<br/> 다른 아이디를 입력해주세요";
-          }
-        });
+      try {
+        let caniUseIdResult = await this.caniUseId( this.user.userid );
+        this.message.showIdMsg = true;
+        if (caniUseIdResult) {
+          this.user.checkid = true;
+          this.message.id.html = "사용 가능한 아이디 입니다";
+          this.message.id.show = true;
+          this.message.id.color = 'success';
+        } else {
+          this.user.checkid = false;
+          this.message.id.html = "사용할 수 없는 아이디 입니다.<br/> 다른 아이디를 입력해주세요";
+          this.message.id.show = true;
+          this.message.id.color = 'danger';
+          this.$refs.userid.focus();
+        }
+      } catch (err) {
+        console.error(err);
+      }
     },
-    resetCheckUserId : function() {
-      this.checkUserId = false;
+    resetCheckuserid : function() {
+      this.user.checkid = false;
     }
   }
 }

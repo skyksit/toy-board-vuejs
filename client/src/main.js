@@ -1,18 +1,23 @@
+import '@babel/polyfill';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import axios from 'axios';
+import axios from './service/axios';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
+// global variable
 Vue.prototype.$http = axios;
+
 Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')
