@@ -10,11 +10,13 @@ class AuthService {
         }
       })
       .then(res => {
-        console.log(`AuthService.login=${JSON.stringify(res)}`);
         if (res.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(res.data));
         }
         return res.data;
+      })
+      .catch(err => {
+        return err;
       });
   }
 
@@ -26,13 +28,12 @@ class AuthService {
     return axios
       .post(`/api/users`, {
         user: {
-          id: user.userid,
-          name: user.username,
+          id: user.id,
+          name: user.name,
           password: user.password
         }
       })
       .then(res => {
-        console.log(`res = ${JSON.stringify(res)}`);
         return res.data;
       });
   }
@@ -42,8 +43,10 @@ class AuthService {
       .get(`/api/id?user_id=${userid}`)
       .then((res) => {
         return res.data;
+      })
+      .catch((err) => {
+        return err
       });
-
   }
 }
 

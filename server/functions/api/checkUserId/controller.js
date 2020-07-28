@@ -1,7 +1,6 @@
 'use strict'
 const userModel = require('../../../models/userModel');
-const { sign } = require('../../../utils/util');
-const { ok, badRequest, unauthorized } = require('../../../utils/response');
+const { ok, badRequest } = require('../../../utils/response');
 
 const checkUserIdController = async(event) => {
   const params = event.queryStringParameters;

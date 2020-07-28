@@ -89,7 +89,6 @@ functions:
   # REST API
   - ${file(./functions/api/createUser/function.yml)}
   - ${file(./functions/api/loginUser/function.yml)}
-  - ${file(./functions/api/logoutUser/function.yml)}
   - ${file(./functions/api/authUser/function.yml)}
   - ${file(./functions/api/checkUserId/function.yml)}
   # - ${file(./functions/api/getUser/function.yml)}

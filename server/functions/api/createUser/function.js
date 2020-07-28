@@ -4,8 +4,7 @@ const createController = require('./controller');
 
 exports.handler = async function(event) {
   try {
-    let result = await createController(event);
-    return result;
+    return await createController(event);
   } catch (error) {
     return badRequest('Failed Created User');
   }

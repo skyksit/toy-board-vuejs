@@ -1,12 +1,14 @@
 'use strict'
 const userModel = require('../../../models/userModel');
 const { sign } = require('../../../utils/util');
-const { configs } = require('../../../utils/consts');
-const { ok, create, badRequest } = require('../../../utils/response');
+const { create, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const createController = async(event) => {
   const body = JSON.parse(event.body);
+
+  console.log(`createController=${JSON.stringify(body)}`);
+
   if (!body.user) return badRequest('User is required');
   const newUser = body.user;
   if (!newUser.id) return badRequest('Userid is required');
@@ -25,11 +27,10 @@ const createController = async(event) => {
   };
   
   let result = await userModel.put(item, options);
-  console.log(`result.statusCode=${result.statusCode}`);
+  
   if(result.statusCode == null) {
-    const token = sign(newUser);
-    let body = { message: "User registered successfully!", accessToken: token };
-    return create(body);
+    let message = { message: "User registered successfully!" };
+    return create(message);
   } else {
     return badRequest('Password is required');
   }

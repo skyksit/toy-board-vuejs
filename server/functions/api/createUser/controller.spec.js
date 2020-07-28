@@ -11,9 +11,10 @@ describe("REST/createUser", () => {
     let result = await createController(
       {
         ...apiGatewaySample,
-        body: `{ "user" : { "id":"skykbc", "name":"홍길동", "password":"passw0rd"} }`
+        body: `{ "user" : { "id":"skyksit", "name":"홍길동", "password":"password"} }`
       }
     );
+    console.log(`result = ${result}`);
     result.should.property('statusCode',201);
   });
   // eslint-disable-next-line no-undef
