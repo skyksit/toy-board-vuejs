@@ -10,12 +10,12 @@
     "moment-timezone": "^0.5.31"
   },
   "devDependencies": {
-    "aws-sdk": "^2.715.0",
+    "aws-sdk": "^2.722.0",
     "eslint": "^7.5.0",
     "eslint-plugin-sonarjs": "^0.5.0",
     "eslint-plugin-vue": "^6.2.2",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.5.0",
-    "serverless-offline-ssm": "^5.0.1"
+    "serverless-offline-ssm": "^5.0.2"
   }
 }
