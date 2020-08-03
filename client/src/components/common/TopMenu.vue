@@ -31,9 +31,24 @@
           <router-link to="/user/modify" class="nav-link">정보수정</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/user/logout" class="nav-link">로그아웃</router-link>
+          <a class="nav-link" href @click.prevent="logoutProcess">
+            <font-awesome-icon icon="sign-out-alt" />로그아웃
+          </a>
         </li>
       </ul>
     </div>
   </nav>
 </template>
+<script>
+import { mapActions } from 'vuex';
+export default {
+  methods: {
+    ...mapActions(['logout']),
+    logoutProcess() {
+      this.logout();
+      alert('로그아웃 되었습니다');
+      this.$router.push({name: 'Home'}).catch(()=>{});
+    }
+  }
+}
+</script>

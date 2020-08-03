@@ -1,0 +1,24 @@
+### (DEV) User Create CURL Sample
+POST https://ep13z7dt61.execute-api.ap-northeast-2.amazonaws.com/dev/api/users HTTP/1.1
+content-type: application/json
+
+{
+  "user": {
+    "id": "skykbc",
+    "name": "김병철",
+    "password": "passw0rd"
+  }
+}
+
+### (local) User Create CURL Sample
+POST http://localhost:5000/local/api/users HTTP/1.1
+content-type: application/json
+
+{
+  "user": {
+    "id": "skykbc",
+    "name": "김병철",
+    "password": "password"
+  }
+}
+

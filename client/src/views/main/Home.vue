@@ -4,10 +4,10 @@
     style="margin-top:100px"
   >
     <div class="row">
-      <BoardList />
-      <BoardList />
-      <BoardList />
-      <BoardList />
+      <board-list />
+      <board-list />
+      <board-list />
+      <board-list />
     </div>
   </div>
 </template>

@@ -1,9 +1,0 @@
-getUser:
-  handler: functions/api/rest/getUser/function.handler
-  memorySize: 128
-  timeout: 10
-  events:
-    - http:
-        method: GET
-        path: /api/user
-        cors: true

@@ -1,0 +1,9 @@
+getUser:
+  handler: functions/api/updateUser/function.handler
+  memorySize: 128
+  timeout: 10
+  events:
+    - http:
+        method: PUT
+        path: /api/user
+        cors: true

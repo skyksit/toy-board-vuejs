@@ -1,9 +1,0 @@
-loginUser:
-  handler: functions/api/rest/loginUser/function.handler
-  memorySize: 128
-  timeout: 10
-  events:
-    - http:
-        method: POST
-        path: /api/users/login
-        cors: true

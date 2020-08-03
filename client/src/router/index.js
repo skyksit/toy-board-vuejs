@@ -73,8 +73,8 @@ const routes = [
   },
   {
     path: '/user',
-    redirect: '/user/login',
     name: 'User',
+    redirect: '/user/login',
     component: {
       render (c) { return c('router-view') }
     },
@@ -93,13 +93,6 @@ const routes = [
         path: 'modify',
         name: 'UserModify',
         component: UserModify
-      },
-      {
-        path: 'logout',
-        beforeEnter(to, from, next) {
-          alert('로그아웃되었습니다');
-          next('/');
-        }
       }
     ]
   }

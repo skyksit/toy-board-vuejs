@@ -8,54 +8,65 @@
       <div class="col-sm-6">
         <div class="card shadow">
           <div class="card-body">
-            <div
-              v-if="isLoginFail === true"
-              class="alert alert-danger"
-            >
-              <h3>로그인 실패</h3>
-              <p>아이디 비밀번호를 확인해주세요</p>
-            </div>
-            <form
-              action="index.html"
-              method="post"
-              onsubmit="return check_input()"
-            >
-              <div class="form-group">
-                <label for="userId">아이디</label>
-                <input
-                  id="userId"
-                  ref="userId"
-                  v-model="userId"
-                  type="text"
-                  class="form-control"
+            <ValidationObserver ref="form">
+              <form @submit.prevent="onSubmit">
+                <div
+                  v-if="user.isLoginFail === true"
+                  class="alert alert-danger"
                 >
-              </div>
-              <div class="form-group">
-                <label for="userPassword">비밀번호</label>
-                <input
-                  id="userPassword"
-                  ref="userPassword"
-                  v-model="userPassword"
-                  type="password"
-                  class="form-control"
-                >
-              </div>
-              <div class="form-group text-right">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  @click="checkInput"
-                >
-                  로그인
-                </button>
-                <router-link
-                  to="/user/join"
-                  class="btn btn-danger"
-                >
-                  회원가입
-                </router-link>
-              </div>
-            </form>
+                <h3>로그인 실패</h3>
+                <p>아이디 비밀번호를 확인해주세요</p>
+                </div>
+                <div class="form-group">
+                  <label for="userid">아이디</label>
+                  <ValidationProvider :rules="{ required: {allowFalse:false} , regex: /^[A-Za-z0-9]{4,12}$/ }" v-slot="{ errors }">
+                    <div class="input-group">
+                      <input
+                        id="userid"
+                        ref="userid"
+                        v-model="user.userid"
+                        type="text"
+                        class="form-control"
+                      >
+                    </div>
+                    <div v-if="errors[0]" class="alert alert-danger">{{ errors[0] }}</div>
+                  </ValidationProvider>
+                </div>
+                <div class="form-group">
+                  <ValidationProvider rules="required|alpha_dash|min:4" v-slot="{ errors }" vid="password">
+                  <label for="password">비밀번호</label>
+                  <input
+                    id="password"
+                    ref="password"
+                    v-model="user.password"
+                    type="password"
+                    class="form-control"
+                  >
+                  <div class="alert-danger">{{ errors[0] }}</div>
+                  </ValidationProvider>
+                </div>
+                <div
+                  v-if="messages.submitMsg"
+                  class="alert"
+                  :class="successful ? 'alert-success' : 'alert-danger'"
+                >{{messages.submitMsg}}</div>
+                <div class="form-group text-right">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="onSubmit"
+                  >
+                    <span>로그인</span>
+                  </button>
+                  <router-link
+                    to="/user/join"
+                    class="btn btn-danger"
+                  >
+                    회원가입
+                  </router-link>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -64,31 +75,51 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import User from '../../models/user';
+
 export default {
   data : function() {
     return {
-      isLoginFail : false,
-      userId : '',
-      userPassword : ''
+      user: new User('','',''),
+      successful: false,
+      messages: {
+        submitMsg: ''
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['getLoggedin'])
+  },
+  created() {
+    if (this.getLoggedin) {
+      this.$router.push({ name: 'Home'});
     }
   },
   methods : {
-    checkInput : function() {
-      if(this.userId.length < 4) {
-        alert("아이디는 4글자 이상입니다");
-        this.userId = '';
-        this.$refs.userId.focus();
-        return
-      }
-      if(this.userPassword.length < 4) {
-        alert("비밀번호는 6글자 이상입니다");
-        this.userPassword = '';
-        this.$refs.userPassword.focus();
-        return
-      }
+    ...mapActions(['login']),
+    onSubmit : function() {
+      this.successful = true;
 
-      alert("로그인 되었습니다");
-      this.$router.push('/');
+      try {
+        this.login( this.user ).then(
+          data => {
+            if(!data) {
+              this.successful = false;
+              this.messages.submitMsg = "로그인을 실패하였습니다";
+              return;
+            }
+            this.$router.push({name: 'UserModify'});
+          },
+          error => {
+            this.successful = false;
+            this.messages.submitMsg = error.message;
+          }
+        );
+        this.successful = false;
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 }

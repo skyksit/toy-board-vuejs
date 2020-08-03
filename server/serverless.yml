@@ -5,8 +5,14 @@ frameworkVersion: '>=1.0.0 <2.0.0'
 custom:
   baseDomain: toy
   subDomain: project
+  ssm: ${ssm:/toyboard/${opt:stage, self:provider.stage}/envs~true}
   currentVars:
     tableName: toyProject-board-${self:provider.stage}
+  serverless-offline-ssm:
+    stages:
+      - local
+    ssm:
+      '/toyboard/local/envs': '{"configData":{"AUTH_SECRET": "verysecrettoken","TOKEN_EXP_HOURS": "1h","BOARD_TABLE": "toyProject-board-local"}}'
   dynamodb:
     stages:
       - local
@@ -50,14 +56,15 @@ package:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'ap-northeast-2'}
   memorySize: 128
   deploymentBucket:
-    name: com.nsmall.easyshopping.${self:provider.region}.deploys
+    name: nsm-${self:provider.stage}-serverless-bucket
     maxPreviousDeploymentArtifacts: 10
     blockPublicAccess: true
     serverSideEncrytion: AES256
+  logRetentionInDays: 14
   endpointType: regional
   iamRoleStatements:
     - Effect: Allow
@@ -69,27 +76,24 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
-  environment:
-    STAGE: ${self:provider.stage}
-    BOARD_TABLE: ${self:custom.currentVars.tableName}
-    AUTH_SECRET: 
   tracing:
     apiGateway: true
     lambda: true
 
 plugins:
-  - serverless-offline
+  - serverless-offline-ssm
   - serverless-dynamodb-local
+  - serverless-offline
 
 functions:
   # REST API
-  - ${file(./functions/api/rest/createUser/function.yml)}
-  - ${file(./functions/api/rest/loginUser/function.yml)}
-  - ${file(./functions/api/rest/logoutUser/function.yml)}
-  - ${file(./functions/api/rest/authUser/function.yml)}
-  # - ${file(./functions/api/rest/getUser/function.yml)}
-  # - ${file(./functions/api/rest/updateUser/function.yml)}
-  # - ${file(./functions/api/rest/getProfileUser/function.yml)}
+  - ${file(./functions/api/createUser/function.yml)}
+  - ${file(./functions/api/loginUser/function.yml)}
+  - ${file(./functions/api/authUser/function.yml)}
+  - ${file(./functions/api/checkUserId/function.yml)}
+  # - ${file(./functions/api/getUser/function.yml)}
+  # - ${file(./functions/api/updateUser/function.yml)}
+  # - ${file(./functions/api/getProfileUser/function.yml)}
 
 resources:
   # DynamoDB

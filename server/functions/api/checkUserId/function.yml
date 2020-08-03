@@ -1,0 +1,10 @@
+checkUserId:
+  handler: functions/api/checkUserId/function.handler
+  memorySize: 128
+  timeout: 10
+  events:
+    - http:
+        method: GET
+        path: /api/id
+        cors: true
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json):configData}

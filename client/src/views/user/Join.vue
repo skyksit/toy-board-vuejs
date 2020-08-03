@@ -8,68 +8,97 @@
       <div class="col-sm-6">
         <div class="card shadow">
           <div class="card-body">
-            <div class="form-group">
-              <label for="userName">이름</label>
-              <input
-                id="userName"
-                ref="userName"
-                v-model="userName"
-                type="text"
-                class="form-control"
-              >
-            </div>
-            <div class="form-group">
-              <label for="userId">아이디</label>
-              <div class="input-group">
-                <input
-                  id="userId"
-                  ref="userId"
-                  v-model="userId"
-                  type="text"
-                  class="form-control"
-                >
-                <div class="input-group-append">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="checkUserIdExist"
-                  >
-                    중복확인
-                  </button>
+            <ValidationObserver ref="form">
+              <form @submit.prevent="onSubmit">
+                <div class="form-group">
+                  <label for="name">이름</label>
+                  <ValidationProvider rules="required|min:2" v-slot="{ errors }">
+                    <input
+                      id="name"
+                      ref="name"
+                      v-model="user.name"
+                      type="text"
+                      class="form-control"
+                      placeholder="홍길동"
+                    />
+                    <div v-if="errors[0]" class="alert alert-danger">{{ errors[0] }}</div>
+                  </ValidationProvider>
                 </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="userPassword">비밀번호</label>
-              <input
-                id="userPassword"
-                ref="userPassword"
-                v-model="userPassword"
-                type="password"
-                class="form-control"
-              >
-            </div>
-            <div class="form-group">
-              <label for="userPassword2">비밀번호 확인</label>
-              <input
-                id="userPassword2"
-                ref="userPassword2"
-                v-model="userPassword2"
-                type="password"
-                class="form-control"
-              >
-            </div>
-            <div class="form-group">
-              <div class="text-right">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  @click="checkInput"
-                >
-                  회원가입
-                </button>
-              </div>
-            </div>
+                <div class="form-group">
+                  <label for="userid">아이디</label>
+                    <ValidationProvider :rules="{ required: {allowFalse:false} , regex: /^[A-Za-z0-9]{4,12}$/ }" v-slot="{ errors }">
+                      <div class="input-group">
+                          <input
+                            id="userid"
+                            ref="userid"
+                            v-model="user.id"
+                            type="text"
+                            class="form-control"
+                            placeholder="abcdef"
+                            @keydown="resetCheckuserid"
+                          />
+                        <div class="input-group-append">
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="checkuseridExist"
+                          >
+                            중복확인
+                          </button>
+                        </div>
+                      </div>
+                      <div v-if="errors[0]" class="alert alert-danger">{{ errors[0] }}</div>
+                    </ValidationProvider>
+                  <div
+                    v-if="messages.useridMsg"
+                    class="alert"
+                    :class="this.checkid ? 'alert-success' : 'alert-danger'"
+                  >{{messages.useridMsg}}</div>
+                </div>
+                  <div class="form-group">
+                    <ValidationProvider rules="required|alpha_dash|min:4" v-slot="{ errors }" vid="password">
+                      <label for="password">비밀번호</label>
+                      <input
+                        id="password"
+                        ref="password"
+                        v-model="user.password"
+                        type="password"
+                        class="form-control"
+                        placeholder="password"
+                      />
+                    <div class="alert-danger">{{ errors[0] }}</div>
+                    </ValidationProvider>
+                  </div>
+                  <div class="form-group">
+                    <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }">
+                      <label for="password2">비밀번호 확인</label>
+                      <input
+                        id="password2"
+                        ref="password2"
+                        v-model="password2"
+                        type="password"
+                        class="form-control"
+                      />
+                      <div class="alert-danger">{{ errors[0] }}</div>
+                    </ValidationProvider>
+                  </div>
+                <div
+                  v-if="messages.submitMsg"
+                  class="alert"
+                  :class="successful ? 'alert-success' : 'alert-danger'"
+                >{{messages.submitMsg}}</div>
+                <div class="form-group">
+                  <div class="text-right">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      회원가입
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
@@ -78,51 +107,85 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import User from '../../models/user';
+
 export default {
   data : function() {
     return {
-      userName : '',
-      userId : '',
-      userPassword : '',
-      userPassword2 : '',
-      checkUserId : false
+      user: new User('','password',''),
+      checkid: false,
+      successful: false,
+      password2: 'password',
+      messages: {
+        useridMsg: '',
+        submitMsg: ''
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['getLoggedin'])
+  },
+  mounted() {
+    if(this.getLoggedin) {
+      this.$router.push({ name: 'Login'});
     }
   },
   methods : {
-    checkInput : function() {
-      if(this.userName.length < 2) {
-        alert("이름은 2글자 이상입니다");
-        this.userName = '';
-        this.$refs.userName.focus();
-        return
-      }
-      if(this.userId.length < 4) {
-        alert("아이디는 4글자 이상입니다");
-        this.userId = '';
-        this.$refs.userId.focus();
-        return
-      }
-      if(this.userPassword.length < 6) {
-        alert("비밀번호는 6글자 이상입니다");
-        this.userPassword = '';
-        this.$refs.userPassword.focus();
-        return
-      }
-      if(this.userPassword != this.userPassword2) {
-        alert("비밀번호 확인 입력값이 비밀번호 입력값과 다릅니다");
-        this.$refs.userPassword2.focus();
-        return
-      }
-      if(this.checkUserId === false) {
-        alert('아이디 중복 확인을 해주세요');
-        this.$refs.userId.focus();
-        return
-      }
-      alert("가입이 완료되었습니다");
-      this.$router.push('/user/login');
+    ...mapActions(['register','caniUseId']),
+    onSubmit : function() {
+      this.$refs.form.validate().then(success => {
+        if(!success ) {
+          this.messages.submitMsg = '입력 값이 잘 못 되었습니다. 확인해주세요.';
+          return;
+        }
+        if(!this.checkid) {
+          this.messages.useridMsg = '아이디 중복을 확인해주세요';
+          return;
+        }
+
+        try {
+          this.register( this.user ).then(
+            data => {
+              this.messages.submitMsg = data.message;
+              this.successful = true;
+              alert('가입해주셔서 감사합니다. 로그인 해주세요.');
+              this.$router.push({ name: 'Login' });
+            },
+            error => {
+              this.messages.submitMsg = 
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+              this.successful = false;
+            }
+          );
+        } catch (err) {
+          console.error(err);
+        }
+
+      });
+
+
     },
-    checkUserIdExist : function() {
-      this.checkUserId = true;
+    checkuseridExist : async function() {
+      try {
+        let caniUseIdResult = await this.caniUseId( this.user.id );
+        if (caniUseIdResult) {
+          this.checkid = true;
+          this.messages.useridMsg = '사용 가능한 아이디 입니다';
+        } else {
+          this.checkid = false;
+          this.messages.useridMsg = '사용 불가능한 아이디 입니다';
+          this.$refs.userid.focus();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    resetCheckuserid : function() {
+      this.checkid = false;
+      this.messages.useridMsg = '';
     }
   }
 }
