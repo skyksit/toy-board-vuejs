@@ -109,7 +109,7 @@ export default {
               this.messages.submitMsg = "로그인을 실패하였습니다";
               return;
             }
-            this.$router.push({name: 'UserModify'});
+            this.$router.replace(this.$route.query.redirect || '/');
           },
           error => {
             this.successful = false;

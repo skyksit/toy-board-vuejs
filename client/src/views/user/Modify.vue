@@ -9,43 +9,43 @@
         <div class="card shadow">
           <div class="card-body">
             <div class="form-group">
-              <label for="userName">이름</label>
+              <label for="name">이름</label>
               <input
-                id="userName"
-                ref="userName"
-                v-model="userName"
+                id="name"
+                ref="name"
+                v-model="user.name"
                 type="text"
                 class="form-control"
                 disabled="disabled"
               >
             </div>
             <div class="form-group">
-              <label for="userId">아이디</label>
+              <label for="userid">아이디</label>
               <input
-                id="userId"
-                ref="userId"
-                v-model="userId"
+                id="userid"
+                ref="userid"
+                v-model="user.id"
                 type="text"
                 class="form-control"
                 disabled="disabled"
               >
             </div>
             <div class="form-group">
-              <label for="userPassword">비밀번호</label>
+              <label for="password">비밀번호</label>
               <input
-                id="userPassword"
-                ref="userPassword"
-                v-model="userPassword"
+                id="password"
+                ref="password"
+                v-model="user.password"
                 type="password"
                 class="form-control"
               >
             </div>
             <div class="form-group">
-              <label for="userPassword2">비밀번호 확인</label>
+              <label for="password2">비밀번호 확인</label>
               <input
-                id="userPassword2"
-                ref="userPassword2"
-                v-model="userPassword2"
+                id="password2"
+                ref="password2"
+                v-model="password2"
                 type="password"
                 class="form-control"
               >
@@ -69,14 +69,27 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import User from '../../models/user';
+
 export default {
   data : function() {
     return {
-      userName : "",
-      userId : "",
-      userPassword : "",
-      userPassword2 : ""
+      user : new User('','',''),
+      successful: false,
+      password2: '',
+      messages: {
+        submitMsg: ''
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
+  },
+  created: function() {
+    this.user = new User(this.getUser.id, '', this.getUser.name);
+    console.log(`created.user = ${JSON.stringify(this.user)}`);
+    console.log(`created.this.getUser = ${JSON.stringify(this.getUser)}`);
   },
   methods : {
     checkInput : function() {

@@ -60,10 +60,10 @@ npm run start:local
     - [ ] 댓글 삭제
 
 ## 보강할 기능
+  - [x] API 에 네비게이션 가드 적용하여 인증 필수 페이지 처리
   - [ ] Refresh Token 을 이용한 보안 강화
   - [ ] Dynamodb 의 페이징 처리
   - [ ] GraphQL 을 적용하여 API 를 단순화 할 수 있는지
-  - [ ] API 에 네비게이션 가드 적용하여 필수 인증 페이지 처리
 
 ## About
 * Vue nodejs serverless dynamodb board is a free service built and maintained by skyksit@gamil.com.
