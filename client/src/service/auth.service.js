@@ -12,6 +12,7 @@ class AuthService {
       .then(res => {
         if (res.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(res.data));
+          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
         }
         return res.data;
       })
@@ -22,6 +23,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('user');
+    axios.defaults.headers.common['Authorization'] = undefined;
   }
 
   register(user) {

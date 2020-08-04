@@ -92,7 +92,8 @@ const routes = [
       {
         path: 'modify',
         name: 'UserModify',
-        component: UserModify
+        component: UserModify,
+        meta: { requriresAuth: true }
       }
     ]
   }
@@ -103,6 +104,22 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior: () => ({ y: 0 })
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requriresAuth)) {
+    const loggedIn = localStorage.getItem('user');
+    if (!loggedIn) {
+      next({
+        path: '/user/login',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
