@@ -89,7 +89,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoggedin'])
+    ...mapGetters('auth', [
+      'getLoggedin'
+    ])
   },
   created() {
     if (this.getLoggedin) {
@@ -97,7 +99,9 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['login']),
+    ...mapActions('auth', [
+      'login'
+    ]),
     onSubmit : function() {
       this.successful = true;
 

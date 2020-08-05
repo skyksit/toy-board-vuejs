@@ -124,7 +124,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoggedin'])
+    ...mapGetters('auth', [
+      'getLoggedin'
+    ])
   },
   mounted() {
     if(this.getLoggedin) {
@@ -132,7 +134,10 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['register','caniUseId']),
+    ...mapActions('auth', [
+      'register',
+      'caniUseId'
+    ]),
     onSubmit : function() {
       this.$refs.form.validate().then(success => {
         if(!success ) {

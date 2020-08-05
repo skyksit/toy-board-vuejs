@@ -43,7 +43,9 @@
 import { mapActions } from 'vuex';
 export default {
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions('auth', [
+      'logout'
+    ]),
     logoutProcess() {
       this.logout();
       alert('로그아웃 되었습니다');

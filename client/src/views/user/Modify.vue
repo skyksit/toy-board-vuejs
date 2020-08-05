@@ -84,7 +84,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUser'])
+    ...mapGetters('auth', [
+      'getUser'
+    ])
   },
   created: function() {
     this.user = new User(this.getUser.id, '', this.getUser.name);

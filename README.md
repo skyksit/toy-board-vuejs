@@ -61,6 +61,7 @@ npm run start:local
 
 ## 보강할 기능
   - [x] API 에 네비게이션 가드 적용하여 인증 필수 페이지 처리
+  - [ ] vuex 의 store 를 module 로 분리
   - [ ] Refresh Token 을 이용한 보안 강화
   - [ ] Dynamodb 의 페이징 처리
   - [ ] GraphQL 을 적용하여 API 를 단순화 할 수 있는지
