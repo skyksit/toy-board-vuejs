@@ -1,8 +1,9 @@
 import AuthService from '../services/auth.service';
+import UserService from '../services/user.service';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-  ? { user: user, loggedIn: true }
+const localUser = JSON.parse(localStorage.getItem('user'));
+const initialState = localUser
+  ? { user: localUser, loggedIn: true }
   : { user: null, loggedIn: false };
 
 export const auth = {
@@ -15,13 +16,13 @@ export const auth = {
   actions: {
     login ({ commit }, user) {
       return AuthService.login(user).then(
-        user => {
-          commit('loginSuccess', user);
-          return Promise.resolve(user);
+        response => {
+          commit('loginSuccess', response);
+          return Promise.resolve(response);
         },
         error => {
           commit('loginFailure');
-          return Promise.reject(error);
+          return Promise.reject(error.response);
         }
       );
     },
@@ -37,7 +38,7 @@ export const auth = {
         },
         error => {
           commit('registerFailure');
-          return Promise.reject(error);
+          return Promise.reject(error.response);
         }
       );
     },
@@ -47,7 +48,18 @@ export const auth = {
           return Promise.resolve(response.use_id);
         },
         error => {
-          return Promise.reject(error);
+          return Promise.reject(error.response);
+        }
+      );
+    },
+    update({ commit }, user) {
+      return UserService.update(user).then(
+        response => {
+          commit('updateSuccess', response);
+          return Promise.resolve(response);
+        },
+        error => {
+          return Promise.reject(error.response);
         }
       );
     }
@@ -70,6 +82,9 @@ export const auth = {
     },
     registerFailure(state) {
       state.loggedIn = false;
+    },
+    updateSuccess(state, user) {
+      state.user = user;
     }
   }
 };

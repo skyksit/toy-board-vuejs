@@ -159,8 +159,7 @@ export default {
             },
             error => {
               this.messages.submitMsg = 
-                (error.response && error.response.data) ||
-                error.message ||
+                error.data.message ||
                 error.toString();
               this.successful = false;
             }

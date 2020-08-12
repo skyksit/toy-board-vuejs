@@ -24,7 +24,7 @@
                       <input
                         id="userid"
                         ref="userid"
-                        v-model="user.userid"
+                        v-model="user.id"
                         type="text"
                         class="form-control"
                       >
@@ -117,7 +117,7 @@ export default {
           },
           error => {
             this.successful = false;
-            this.messages.submitMsg = error.message;
+            this.messages.submitMsg = error.data.message;
           }
         );
         this.successful = false;

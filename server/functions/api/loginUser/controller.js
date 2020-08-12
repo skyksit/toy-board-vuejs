@@ -1,7 +1,7 @@
 'use strict'
 const userModel = require('../../../models/userModel');
-const { sign } = require('../../../utils/util');
-const { ok, badRequest, unauthorized } = require('../../../utils/response');
+const auth = require('../../../utils/auth');
+const { ok, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
 const loginController = async(event) => {
@@ -22,15 +22,15 @@ const loginController = async(event) => {
     { consistent: true }
   );
   
-  if (!result.Item) return unauthorized('User not Found');
+  if (!result.Item) return badRequest('User not Found');
   if (!bcrypt.compareSync(loginUser.password, result.Item.password)) return badRequest('Wrong Password');
 
-  const token = sign(loginUser);
+  const token = auth.signToken(loginUser.id);
+
   let userInfo = {
     id: result.Item.userid,
     name: result.Item.name,
-    accessToken: token,
-    message: 'User registered successfully!'
+    accessToken: token
   };
   return ok(userInfo);
 }

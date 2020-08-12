@@ -1,10 +1,4 @@
 'use strict'
-
-const configs = {
-  TOKEN_EXP_HOURS: process.env.TOKEN_EXP_HOURS,
-  AUTH_SECRET: process.env.AUTH_SECRET
-}
-
 /* istanbul ignore next */
 const getEndpoint = () => {
   if (process.env.DYNAMODB_ENDPOINT) {
@@ -34,6 +28,5 @@ const getTableName = (tableName) => {
 module.exports = {
   getEndpoint,
   getRegion,
-  getTableName,
-  configs
+  getTableName
 }

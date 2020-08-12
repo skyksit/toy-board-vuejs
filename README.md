@@ -44,12 +44,14 @@ npm run start:local
 `AWS Lambda` : 아마존 클라우드의 관리형 함수 서비스
 `AWS dynamodb` : 아마존 클라우드의 관리형 NoSQL 데이터베이스
 `AWS api gateway` : 아마존 클라우드의 관리형 API 서비스
+`dynamodb-toolbox` : Dynamodb DocClient 를 확장한 라이브러리
 
 ## 기능
   - 회원기능
     - [x] 회원가입
     - [x] 로그인
     - [x] 인증
+    - [x] 비밀번호 변경
   - 게시판
     - [ ] 글 등록
     - [ ] 글 조회
@@ -61,7 +63,8 @@ npm run start:local
 
 ## 보강할 기능
   - [x] API 에 네비게이션 가드 적용하여 인증 필수 페이지 처리
-  - [ ] vuex 의 store 를 module 로 분리
+  - [x] vuex 의 store 를 module 로 분리
+  - [x] AWS API Gateway 에 auth 기능하는 Lambda 함수 적용
   - [ ] Refresh Token 을 이용한 보안 강화
   - [ ] Dynamodb 의 페이징 처리
   - [ ] GraphQL 을 적용하여 API 를 단순화 할 수 있는지

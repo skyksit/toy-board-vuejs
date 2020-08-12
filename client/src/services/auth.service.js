@@ -5,7 +5,7 @@ class AuthService {
     return axios
       .post(`/api/users/login`, {
         user: {
-          id: user.userid,
+          id: user.id,
           password: user.password
         }
       })
@@ -15,9 +15,6 @@ class AuthService {
           axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
         }
         return res.data;
-      })
-      .catch(err => {
-        return err;
       });
   }
 
@@ -45,9 +42,6 @@ class AuthService {
       .get(`/api/id?user_id=${userid}`)
       .then((res) => {
         return res.data;
-      })
-      .catch((err) => {
-        return err
       });
   }
 }

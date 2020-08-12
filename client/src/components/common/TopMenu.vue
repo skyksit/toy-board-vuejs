@@ -21,19 +21,19 @@
       </ul>
       
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/user/login" class="nav-link">로그인</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/user/join" class="nav-link">회원가입</router-link>
-        </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="currentLogin">
           <router-link to="/user/modify" class="nav-link">정보수정</router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="currentLogin">
           <a class="nav-link" href @click.prevent="logoutProcess">
             <font-awesome-icon icon="sign-out-alt" />로그아웃
           </a>
+        </li>
+        <li class="nav-item" v-if="!currentLogin">
+          <router-link to="/user/login" class="nav-link">로그인</router-link>
+        </li>
+        <li class="nav-item" v-if="!currentLogin">
+          <router-link to="/user/join" class="nav-link">회원가입</router-link>
         </li>
       </ul>
     </div>
@@ -41,7 +41,14 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
+
 export default {
+  name: 'Topmenu',
+  computed: {
+    currentLogin : function () {
+      return this.$store.state.auth.loggedIn;
+    }
+  },
   methods: {
     ...mapActions('auth', [
       'logout'

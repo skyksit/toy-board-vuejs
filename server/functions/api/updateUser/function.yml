@@ -4,6 +4,10 @@ getUser:
   timeout: 10
   events:
     - http:
-        method: PUT
-        path: /api/user
+        method: PATCH
+        path: /api/user/{id}
+        request:
+          parameters:
+            id: true
         cors: true
+        authorizer: authUser

@@ -2,3 +2,4 @@ authUser:
   handler: functions/api/authUser/function.handler
   memorySize: 128
   timeout: 10
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json):configData}
