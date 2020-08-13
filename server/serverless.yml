@@ -12,7 +12,7 @@ custom:
     stages:
       - local
     ssm:
-      '/toyboard/local/envs': '{"configData":{"AUTH_SECRET": "verysecrettoken","TOKEN_EXP_HOURS": "1h","BOARD_TABLE": "toyProject-board-local"}}'
+      '/toyboard/local/envs': '{"configData":{"ACCESS_TOKEN_SECRET": "verysecrettoken","ACCESS_TOKEN_LIFE": "15m","REFRESH_TOKEN_SECRET": "mobileRefresh","REFRESH_TOKEN_LIFE": "15d","TOTAL_TABLE_NAME": "toyProject-board-local"}}'
   dynamodb:
     stages:
       - local

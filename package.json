@@ -11,7 +11,7 @@
     "db:local": "cd server && serverless dynamodb start --migrate --stage local && cd ..",
     "client": "cd client && npm run serve",
     "start:local": "concurrently --kill-others-on-fail \"npm run db:local\" \"npm run client\" \"npm run deploy1:server\" ",
-    "test": "cross-env AUTH_SECRET=verysecrettoken node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/functions/**/*.spec.js",
+    "test": "cross-env ACCESS_TOKEN_SECRET=\"verysecrettoken\" ACCESS_TOKEN_LIFE=\"15m\" REFRESH_TOKEN_SECRET=\"mobileRefresh\" REFRESH_TOKEN_LIFE=\"15d\" node ./node_modules/mocha/bin/mocha -t 2000 --recursive ./server/functions/**/*.spec.js",
     "cover": "nyc --reporter=lcov --reporter=text npm run test"
   },
   "dependencies": {},

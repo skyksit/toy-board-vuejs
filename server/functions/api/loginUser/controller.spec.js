@@ -12,7 +12,7 @@ describe("REST/loginUser", () => {
       let result = await loginController(
         {
           ...apiGatewaySample,
-          queryStringParameters: { password:"passw0rd" }
+          body: `{ "user" : { "password":"password"} }`
         }
       );
       result.should.property('body','{"message":"Userid is required"}');
@@ -22,7 +22,7 @@ describe("REST/loginUser", () => {
       let result = await loginController(
         {
           ...apiGatewaySample,
-          queryStringParameters: { id:"skykbc" }
+          body: `{ "user" : { "id":"skyksit"} }`
         }
       );
       result.should.property('body','{"message":"Password is required"}');
@@ -35,7 +35,7 @@ describe("REST/loginUser", () => {
       let result = await loginController(
         {
           ...apiGatewaySample,
-          queryStringParameters: { id:"skykbc", password:"passw0rd" }
+          body: `{ "user" : { "id":"skyksit", "password": "password" } }`
         }
       );
       result.should.property('statusCode',200);
@@ -45,7 +45,7 @@ describe("REST/loginUser", () => {
       let result = await loginController(
         {
           ...apiGatewaySample,
-          queryStringParameters: { id:"skykbc", password:"passw0rd1" }
+          body: `{ "user" : { "id":"skyksit", "password": "password234" } }`
         }
       );
       result.should.property('body','{"message":"Wrong Password"}');
@@ -55,7 +55,7 @@ describe("REST/loginUser", () => {
       let result = await loginController(
         {
           ...apiGatewaySample,
-          queryStringParameters: { id:"no.have.id", password:"nopassword" }
+          body: `{ "user" : { "id":"no.user.id", "password": "no.user.password" } }`
         }
       );
       result.should.property('body','{"message":"User not Found"}');

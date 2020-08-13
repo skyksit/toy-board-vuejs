@@ -1,6 +1,5 @@
 'use strict'
 const userModel = require('../../../models/userModel');
-const { sign } = require('../../../utils/util');
 const { create, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 

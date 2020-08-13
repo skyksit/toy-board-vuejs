@@ -1,6 +1,5 @@
 'use strict'
 const userModel = require('../../../models/userModel');
-const { sign } = require('../../../utils/util');
 const { ok, badRequest, unauthorized } = require('../../../utils/response');
 
 const getUserController = async(event) => {
@@ -18,8 +17,6 @@ const getUserController = async(event) => {
     { consistent: true }
   );
   
-  console.log(`result=${JSON.stringify(result)}`);
-
   return ok(result.Item);
 }
 

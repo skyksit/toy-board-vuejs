@@ -1,6 +1,6 @@
 'use strict'
 const jwt = require('jsonwebtoken');
-const AUTH_SECRET = process.env.AUTH_SECRET;
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 const generatePolicy = (principalId, effect, resource) => {
   const authResponse = {}
@@ -26,7 +26,7 @@ const authController = (event, context, callback) => {
   const token = parts[1];
 
   try {
-    jwt.verify(token, AUTH_SECRET, (err, decoded) => {
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decoded) => {
       if (err) {
         console.warn('Invalid token', err);
         return callback('Unauthorized');
