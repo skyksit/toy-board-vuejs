@@ -11,7 +11,8 @@ class AuthService {
       })
       .then(res => {
         if (res.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(res.data));
+          localStorage.setItem('user', JSON.stringify(`{ id: "${res.data.id}", name: "${res.data.name}" }`));
+          localStorage.setItem('accessToken', JSON.stringify(res.data.accessToken));
           axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
         }
         return res.data;

@@ -39,11 +39,22 @@ npm run start:local
 
 
 ## 사용기술
+### Frontend
 `Vue` : Frontend Framework 3대장 중 1가지
+`Vuex` : vue store
+`Vue-router` : router
+`axios` : API 를 호출하기 위한 HTTP 통신 라이브러리
+`bootstrap` : 화면꾸미기 편하게 UI 라이브러리
+`vee-validate` : 입력 폼의 입력값 체크를 위한 라이브러리
+### Backend
+`AWS api gateway` : 아마존 클라우드의 관리형 API 서비스
 `nodejs` : Javascript 백엔드 구현을 위해서 사용
 `AWS Lambda` : 아마존 클라우드의 관리형 함수 서비스
+`jsonwebtoken` : 인증을 위해서 Token 적용
+`bcryptjs` : 비밀번호 암호화
+`moment-timezone` : 한국시간을 Lambda 에서 적용해야 하기 때문에 시간 라이브러리 필수
+### Database
 `AWS dynamodb` : 아마존 클라우드의 관리형 NoSQL 데이터베이스
-`AWS api gateway` : 아마존 클라우드의 관리형 API 서비스
 `dynamodb-toolbox` : Dynamodb DocClient 를 확장한 라이브러리
 
 ## 기능
@@ -53,6 +64,7 @@ npm run start:local
     - [x] 인증
     - [x] 비밀번호 변경
   - 게시판
+    - [ ] 글 리스트 조회
     - [ ] 글 등록
     - [ ] 글 조회
     - [ ] 글 수정

@@ -1,5 +1,6 @@
 'use strict'
 const userModel = require('../../../models/userModel');
+const auth = require('../../../utils/auth');
 const { ok, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
 
@@ -34,6 +35,9 @@ const updateUserController = async(event) => {
         ReturnValues: 'ALL_NEW'
       }
     );
+    const token = auth.signToken(loginUser.id);
+
+    result.Attributes.accessToken = token;
     return ok(result.Attributes);
   } catch(error) {
     return badRequest('비밀번호 변경을 실패했습니다');

@@ -2,9 +2,10 @@ import AuthService from '../services/auth.service';
 import UserService from '../services/user.service';
 
 const localUser = JSON.parse(localStorage.getItem('user'));
+const accessToken = JSON.parse(localStorage.getItem('accessToken'));
 const initialState = localUser
-  ? { user: localUser, loggedIn: true }
-  : { user: null, loggedIn: false };
+  ? { user: localUser, accessToken: accessToken, loggedIn: true }
+  : { user: null, accessToken: null, loggedIn: false };
 
 export const auth = {
   namespaced: true,
@@ -12,6 +13,7 @@ export const auth = {
   getters: {
     getUser: state => state.user,
     getLoggedin: state => state.loggedIn,
+    getAccessToken: state => state.accessToken
   },
   actions: {
     login ({ commit }, user) {
@@ -67,15 +69,16 @@ export const auth = {
   mutations: {
     loginSuccess(state, user) {
       state.loggedIn = true;
-      state.user = user;
+      state.user = { "id": user.id, "name": user.name };
+      state.accessToken = user.accessToken;
     },
     loginFailure(state) {
       state.loggedIn = false;
-      state.user = null;
     },
     logout(state) {
       state.loggedIn = false;
       state.user = null;
+      state.accessToken = null;
     },
     registerSuccess(state) {
       state.loggedIn = false;
@@ -84,7 +87,7 @@ export const auth = {
       state.loggedIn = false;
     },
     updateSuccess(state, user) {
-      state.user = user;
+      state.accessToken = user.accessToken;
     }
   }
 };
