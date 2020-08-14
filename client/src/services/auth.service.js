@@ -21,6 +21,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
     axios.defaults.headers.common['Authorization'] = undefined;
   }
 

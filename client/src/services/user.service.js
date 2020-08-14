@@ -12,6 +12,10 @@ class UserService {
         }
       })
       .then(res => {
+        if (res.data.accessToken) {
+          localStorage.setItem('accessToken', JSON.stringify(res.data.accessToken));
+          axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
+        }
         return res.data;
       });
   }

@@ -19,10 +19,12 @@ export const auth = {
     login ({ commit }, user) {
       return AuthService.login(user).then(
         response => {
+          console.log(`response=${JSON.stringify(response)}`);
           commit('loginSuccess', response);
           return Promise.resolve(response);
         },
         error => {
+          console.log(`error.response=${JSON.stringify(error.response)}`);
           commit('loginFailure');
           return Promise.reject(error.response);
         }
@@ -67,10 +69,10 @@ export const auth = {
     }
   },
   mutations: {
-    loginSuccess(state, user) {
+    loginSuccess(state, response) {
       state.loggedIn = true;
-      state.user = { "id": user.id, "name": user.name };
-      state.accessToken = user.accessToken;
+      state.user = JSON.parse(`{ "id": "${response.id}", "name": "${response.name}" }`);
+      state.accessToken = response.accessToken;
     },
     loginFailure(state) {
       state.loggedIn = false;
@@ -86,8 +88,8 @@ export const auth = {
     registerFailure(state) {
       state.loggedIn = false;
     },
-    updateSuccess(state, user) {
-      state.accessToken = user.accessToken;
+    updateSuccess(state, response) {
+      state.accessToken = response.accessToken;
     }
   }
 };
