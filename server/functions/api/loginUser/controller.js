@@ -3,14 +3,15 @@ const userModel = require('../../../models/userModel');
 const auth = require('../../../utils/auth');
 const { ok, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
+const messages = require('../../../utils/messages.json');
 
 const loginController = async(event) => {
   const body = JSON.parse(event.body);
-  if (!body.user) return badRequest('User is required');
+  if (!body.user) return badRequest(messages.requireUser);
   const loginUser = body.user;
 
-  if (!loginUser.id) return badRequest('Userid is required');
-  if (!loginUser.password) return badRequest('Password is required');
+  if (!loginUser.id) return badRequest(messages.requireUserid);
+  if (!loginUser.password) return badRequest(messages.requirePassword);
 
   let item = {
     pk: 'user',

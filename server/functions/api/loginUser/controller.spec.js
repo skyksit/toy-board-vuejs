@@ -1,6 +1,7 @@
 'use strict'
 const loginController = require('./controller');
 const { apiGatewaySample } = require('../../../utils/apiGatewaySample');
+const messages = require('../../../utils/messages.json');
 const chai = require('chai');
 chai.should();
 
@@ -15,7 +16,9 @@ describe("REST/loginUser", () => {
           body: `{ "user" : { "password":"password"} }`
         }
       );
-      result.should.property('body','{"message":"Userid is required"}');
+      let outputMessage = Object();
+      outputMessage.message = messages.requireUserid;
+      result.should.property('body', JSON.stringify(outputMessage) );
     });
     // eslint-disable-next-line no-undef
     it("loginUser_fail_missingPassword", async () => {
@@ -25,7 +28,9 @@ describe("REST/loginUser", () => {
           body: `{ "user" : { "id":"skyksit"} }`
         }
       );
-      result.should.property('body','{"message":"Password is required"}');
+      let outputMessage = Object();
+      outputMessage.message = messages.requirePassword;
+      result.should.property('body', JSON.stringify(outputMessage) );
     });
   });
 
@@ -48,7 +53,9 @@ describe("REST/loginUser", () => {
           body: `{ "user" : { "id":"skyksit", "password": "password234" } }`
         }
       );
-      result.should.property('body','{"message":"Wrong Password"}');
+      let outputMessage = Object();
+      outputMessage.message = messages.wrongPassword;
+      result.should.property('body', JSON.stringify(outputMessage) );
     });
     // eslint-disable-next-line no-undef
     it("loginUser_fail_userNotFound", async () => {
@@ -58,7 +65,9 @@ describe("REST/loginUser", () => {
           body: `{ "user" : { "id":"no.user.id", "password": "no.user.password" } }`
         }
       );
-      result.should.property('body','{"message":"User not Found"}');
+      let outputMessage = Object();
+      outputMessage.message = messages.notFoundUser;
+      result.should.property('body', JSON.stringify(outputMessage) );
     });
   });
 });

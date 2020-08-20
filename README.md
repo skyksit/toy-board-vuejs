@@ -77,8 +77,10 @@ npm run start:local
   - [x] API 에 네비게이션 가드 적용하여 인증 필수 페이지 처리
   - [x] vuex 의 store 를 module 로 분리
   - [x] AWS API Gateway 에 auth 기능하는 Lambda 함수 적용
+  - [x] Server 에서의 Error 메시지를 별도 파일로 분리 (로그인만 적용해놓음)
   - [ ] Refresh Token 을 이용한 보안 강화
   - [ ] Dynamodb 의 페이징 처리
+  - [ ] 주요정보는 Cookie 에 저장
   - [ ] GraphQL 을 적용하여 API 를 단순화 할 수 있는지
 
 ## About
