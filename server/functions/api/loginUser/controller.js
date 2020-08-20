@@ -23,8 +23,8 @@ const loginController = async(event) => {
     { consistent: true }
   );
   
-  if (!result.Item) return badRequest('User not Found');
-  if (!bcrypt.compareSync(loginUser.password, result.Item.password)) return badRequest('Wrong Password');
+  if (!result.Item) return badRequest(messages.requireUser);
+  if (!bcrypt.compareSync(loginUser.password, result.Item.password)) return badRequest(messages.wrongPassword);
 
   const token = auth.signToken(loginUser.id);
 

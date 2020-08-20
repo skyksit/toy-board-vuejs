@@ -11,7 +11,7 @@ describe("REST/createUser", () => {
     let result = await createController(
       {
         ...apiGatewaySample,
-        body: `{ "user" : { "id":"skyksit3", "name":"홍길동", "password":"password"} }`
+        body: `{ "user" : { "id":"skyksit", "name":"홍길동", "password":"password"} }`
       }
     );
     console.log(`result = ${result}`);
