@@ -57,7 +57,13 @@ export default {
       this.logout();
       alert('로그아웃 되었습니다');
       this.$router.push({name: 'Home'}).catch(()=>{});
+    },
+    getBoardList() {
+      console.log(`Cookies.boardList=${this.$cookies.get('boardList')}`);
     }
+  },
+  created() {
+    this.getBoardList();
   }
 }
 </script>

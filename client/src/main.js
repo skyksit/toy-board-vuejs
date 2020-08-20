@@ -15,11 +15,16 @@ import {
   faSignInAlt,
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
+import VueCookies from 'vue-cookies';
+
 
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(VueCookies);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+Vue.$cookies.config('7d');
 
 import { ValidationProvider, ValidationObserver, extend, localize } from 'vee-validate';
 import ko from 'vee-validate/dist/locale/ko.json';
