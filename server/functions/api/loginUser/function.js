@@ -1,7 +1,7 @@
 'use strict'
-import messages from '../../../utils/messages.json';
 const { badRequest } = require('../../../utils/response');
 const loginController = require('./controller');
+const { messages } = require('../../../utils/messages.json');
 
 exports.handler = async function(event) {
   try {

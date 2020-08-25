@@ -28,6 +28,7 @@ module.exports.notFound = function (message) {
 }
 
 module.exports.badRequest = function (message) {
+  console.log(`badRequest=${message}`);
   return {
     statusCode: 400,
     body: JSON.stringify({ message: message }),

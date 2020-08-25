@@ -89,17 +89,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', [
-      'getLoggedin'
+    ...mapGetters('user', [
+      'getLoggedIn'
     ])
   },
   created() {
-    if (this.getLoggedin) {
+    if (this.getLoggedIn) {
       this.$router.push({ name: 'Home'});
     }
   },
   methods : {
-    ...mapActions('auth', [
+    ...mapActions('user', [
       'login'
     ]),
     onSubmit : function() {
@@ -108,6 +108,7 @@ export default {
       try {
         this.login( this.user ).then(
           data => {
+            console.log(`data=${JSON.stringify(data)}`)
             if(!data) {
               this.successful = false;
               this.messages.submitMsg = "로그인을 실패하였습니다";
@@ -117,7 +118,7 @@ export default {
           },
           error => {
             this.successful = false;
-            this.messages.submitMsg = error.data.message;
+            this.messages.submitMsg = error.message;
           }
         );
         this.successful = false;

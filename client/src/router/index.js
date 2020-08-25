@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { getUser } from "../utils/auth";
 
 //Views
 const Home = () => import('@/views/main/Home');
@@ -108,7 +109,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requriresAuth)) {
-    const loggedIn = localStorage.getItem('user');
+    const loggedIn = getUser();
     if (!loggedIn) {
       next({
         path: '/user/login',

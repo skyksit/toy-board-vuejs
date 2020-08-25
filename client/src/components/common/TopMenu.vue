@@ -46,11 +46,11 @@ export default {
   name: 'Topmenu',
   computed: {
     currentLogin : function () {
-      return this.$store.state.auth.loggedIn;
+      return this.$store.state.user.loggedIn;
     }
   },
   methods: {
-    ...mapActions('auth', [
+    ...mapActions('user', [
       'logout'
     ]),
     logoutProcess() {
@@ -59,7 +59,7 @@ export default {
       this.$router.push({name: 'Home'}).catch(()=>{});
     },
     getBoardList() {
-      console.log(`Cookies.boardList=${this.$cookies.get('boardList')}`);
+      console.log(` empty `);
     }
   },
   created() {

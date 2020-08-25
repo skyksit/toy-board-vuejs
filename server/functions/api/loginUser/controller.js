@@ -3,7 +3,7 @@ const userModel = require('../../../models/userModel');
 const auth = require('../../../utils/auth');
 const { ok, badRequest } = require('../../../utils/response');
 const bcrypt = require('bcryptjs');
-const messages = require('../../../utils/messages.json');
+const { messages } = require('../../../utils/messages.json');
 
 const loginController = async(event) => {
   const body = JSON.parse(event.body);
@@ -22,8 +22,12 @@ const loginController = async(event) => {
     item,
     { consistent: true }
   );
-  
-  if (!result.Item) return badRequest(messages.requireUser);
+
+  if (!result.Item) {
+    console.log(`messages.requireUser=${JSON.stringify(messages.requireUser)}`);
+    console.log(`messages type = ${typeof(messages)}`);
+    return badRequest(messages.requireUser);
+  }
   if (!bcrypt.compareSync(loginUser.password, result.Item.password)) return badRequest(messages.wrongPassword);
 
   const token = auth.signToken(loginUser.id);

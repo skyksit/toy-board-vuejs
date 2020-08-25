@@ -89,7 +89,7 @@ import User from '../../models/user';
 export default {
   data : function() {
     return {
-      user : new User('','',''),
+      user : null,
       successful: false,
       password2: '',
       messages: {
@@ -98,17 +98,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', [
+    ...mapGetters('user', [
       'getUser'
     ])
   },
   created: function() {
     this.user = new User(this.getUser.id, '', this.getUser.name);
-    // console.log(`created.user = ${JSON.stringify(this.user)}`);
-    // console.log(`created.this.getUser = ${JSON.stringify(this.getUser)}`);
   },
   methods : {
-    ...mapActions('auth', [
+    ...mapActions('user', [
       'update'
     ]),
     onSubmit : function() {
@@ -129,13 +127,11 @@ export default {
             error => {
               this.messages.submitMsg = error.data.message;
               this.successful = false;
-              console.error(`error=${JSON.stringify(error)}`);
-              console.error(`error.data.message=${JSON.stringify(error.data.message)}`);
             }
           );
-        } catch (err) {
-          console.error(`err=${err}`);
-          console.error(`err.response= ${err.response}`);
+        } catch (error) {
+          console.error(`error=${error}`);
+          console.error(`error.response= ${error.response}`);
         }
       });
     }

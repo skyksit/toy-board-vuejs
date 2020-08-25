@@ -1,7 +1,7 @@
 'use strict'
 const loginController = require('./controller');
 const { apiGatewaySample } = require('../../../utils/apiGatewaySample');
-const messages = require('../../../utils/messages.json');
+const { messages } = require('../../../utils/messages.json');
 const chai = require('chai');
 chai.should();
 
