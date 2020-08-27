@@ -3,29 +3,26 @@ const docClient = require('../services/dynamoDB');
 const { Table, Entity } = require('dynamodb-toolbox');
 const { getTableName } = require('../utils/consts');
 const userTableName = getTableName('BOARD_TABLE');
-const moment = require('moment-timezone');
 
-const userTable = new Table({
+const oneTable = new Table({
   name: userTableName,
   partitionKey: 'pk',
   sortKey: 'sk',
   DocumentClient: docClient
 });
 
-const userModel = new Entity({
-  name: 'userModel',
+const boardModel = new Entity({
+  name: 'boardModel',
   timestamps: false,
   attributes: {
     pk: { partitionKey: true },
     sk: { sortKey: true },
-    content: { alias: 'name' },
-    password: { type: 'string' },
-    userid: { type: 'string' },
-    createdAt: { default: () => moment().tz('Asia/Seoul').format() },
-    updatedAt: { default: () => moment().tz('Asia/Seoul').format() },
+    boardname: { map: 'content' }
+    // content: { alias: 'boardname' }
   },
 
-  table: userTable
+  table: oneTable
 });
 
-module.exports = userModel
+exports.boardModel = boardModel;
+exports.oneTable = oneTable;

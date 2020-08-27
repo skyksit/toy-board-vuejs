@@ -22,3 +22,10 @@ content-type: application/json
   }
 }
 
+### get board list
+GET http://localhost:5000/local/api/boards HTTP/1.1
+content-type: application/json
+
+{
+
+}

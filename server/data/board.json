@@ -1,22 +1,22 @@
 [
   {
     "pk": "board",
-    "sk": "board-1",
+    "sk": "board1",
     "content": "자유게시판"
   },
   {
     "pk": "board",
-    "sk": "board-2",
+    "sk": "board2",
     "content": "유머게시판"
   },
   {
     "pk": "board",
-    "sk": "board-3",
+    "sk": "board3",
     "content": "정치게시판"
   },
   {
     "pk": "board",
-    "sk": "board-4",
+    "sk": "board4",
     "content": "스포츠게시판"
   },
   {

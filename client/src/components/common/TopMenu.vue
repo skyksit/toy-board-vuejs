@@ -6,17 +6,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link to="/board" class="nav-link">자유게시판</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/board" class="nav-link">유머게시판</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/board" class="nav-link">정치게시판</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/board" class="nav-link">스포츠게시판</router-link>
+        <li class="nav-item" v-for='(obj, index) in boardList' :key="index">
+          <router-link :to="'/board/' + obj.sk" class="nav-link">{{obj.content}}</router-link>
         </li>
       </ul>
       
@@ -41,9 +32,16 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
+import { getStore, setStore } from '@/utils';
+import { getBoardList } from '@/api/board';
 
 export default {
   name: 'Topmenu',
+  data() {
+    return {
+      boardList: []
+    }
+  },
   computed: {
     currentLogin : function () {
       return this.$store.state.user.loggedIn;
@@ -58,12 +56,31 @@ export default {
       alert('로그아웃 되었습니다');
       this.$router.push({name: 'Home'}).catch(()=>{});
     },
-    getBoardList() {
-      console.log(` empty `);
+    initBoardList() {
+      //localstorage 에서 게시판리스트를 가져온다
+      let localBoardList = getStore('boardList');
+      if (localBoardList) {
+        console.log(`getStore.success`);
+        this.boardList = JSON.parse(localBoardList);
+        return;
+      }
+      //localstorage 에 게시판리스트가 없으면 api 를 통해서 가져온다
+      console.log(`getStore.failed`);
+      getBoardList().then(
+        response => {
+          let { data } = response;
+          this.boardList = data;
+          setStore('boardList', data);
+        },
+        error => {
+          console.log(`error=${JSON.stringify(error)}`);
+        }
+      );
+      //게시판리스트는 data.boardList 에 넣는다
     }
   },
   created() {
-    this.getBoardList();
+    this.initBoardList();
   }
 }
 </script>

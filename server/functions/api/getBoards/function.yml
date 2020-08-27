@@ -1,0 +1,10 @@
+getBoards:
+  handler: functions/api/getBoards/function.handler
+  memorySize: 128
+  timeout: 10
+  events:
+    - http:
+        method: GET
+        path: /api/boards
+        cors: true
+  environment: ${self:custom.ssm.configData, file(./config/${self:provider.stage}.env.json):configData}

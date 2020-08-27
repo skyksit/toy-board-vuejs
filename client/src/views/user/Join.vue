@@ -152,7 +152,6 @@ export default {
         try {
           this.register( this.user ).then(
             data => {
-              console.log(`data=${JSON.stringify(data)}`);
               this.messages.submitMsg = data.message;
               this.successful = true;
               alert('가입해주셔서 감사합니다. 로그인 해주세요.');
