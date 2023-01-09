@@ -15,7 +15,7 @@
     "eslint-plugin-sonarjs": "^0.10.0",
     "eslint-plugin-vue": "^7.17.0",
     "serverless-dynamodb-local": "^0.2.40",
-    "serverless-offline": "^8.1.0",
+    "serverless-offline": "^8.8.1",
     "serverless-offline-ssm": "^5.2.0"
   }
 }
